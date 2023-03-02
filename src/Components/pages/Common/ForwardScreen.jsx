@@ -46,7 +46,7 @@ const ForwardScreen = (props) => {
 
         console.log('can submit => ', props?.canSubmit)
 
-        {props?.canSubmit == true && setloader(true)}
+        {props?.canSubmit == 'true' && setloader(true)}
 
         let body = {
             applicationId : props?.id,
@@ -55,7 +55,7 @@ const ForwardScreen = (props) => {
         }
         console.log('data before forward => ', body)
 
-       {props?.canSubmit == true &&
+       {props?.canSubmit == 'true' &&
 
         axios.post(api_postApplicationToLevel, body, ApiHeader())
         .then((res) => {
@@ -78,6 +78,10 @@ const ForwardScreen = (props) => {
             console.log('error forward => ', err)
         })}
       }
+
+      useEffect(() => {
+        props?.canSubmit != '' && forwardFun()
+      },[props?.canSubmit])
 
       const closeAction = () => {
         closeModal()

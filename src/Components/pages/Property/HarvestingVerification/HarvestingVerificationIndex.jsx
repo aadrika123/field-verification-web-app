@@ -26,7 +26,7 @@ const HarvestingVerificationIndex = () => {
     const [imageCheck, setimageCheck] = useState(true)
     const [forwardStatus, setforwardStatus] = useState(false)
     const [frontCamera, setfrontCamera] = useState(false)
-    const [forward, setforward] = useState(false)
+    const [forward, setforward] = useState('')
 
     const {get_HarvestingDetailsById, harvestingSiteVerification} = PropertyApiList()
 
@@ -66,16 +66,17 @@ const HarvestingVerificationIndex = () => {
 
         axios.post(harvestingSiteVerification, fd, ApiHeader2())
         .then((res) => {
+            setforward(res?.data?.status)
             if(res?.data?.status == true){
                 console.log('successfully submitted...')
                 // toast.success("Submitted Successfully !!!")
                 setloader(false)
-                setforward(true)
+                setforward('true')
             }
             if(res?.data?.status == false){
                 console.log('error submitted...')
                 toast.error("Something went wrong, please try after sometime !!!")
-                setforward(false)
+                setforward('false')
                 setforwardStatus(false)
                 setloader(false)
             }
@@ -83,7 +84,7 @@ const HarvestingVerificationIndex = () => {
         .catch((error) => {
             console.log('errrorr rwh => ', error)
             toast.error("Something went wrong, please try after sometime !!!")
-            setforward(false)
+            setforward('false')
             setforwardStatus(false)
             setloader(false)
         })

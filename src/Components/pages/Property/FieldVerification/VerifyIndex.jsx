@@ -39,7 +39,7 @@ const VerifyIndex = (props) => {
     const [allData, setallData] = useState()
     const [allFormData, setallFormData] = useState()
     const [updatedData, setupdatedData] = useState()
-    const [forward, setforward] = useState(false)
+    const [forward, setforward] = useState('')
 
     const [pageNo, setpageNo] = useState(1)
 
@@ -133,11 +133,12 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
 
     axios.post(post_SiteVerification, body, ApiHeader())
     .then((res) => {
+      role == '["ULB Tax Collector"]' && setforward(res?.data?.status)
       if(res?.data?.status == true){
       console.log("success => ", res)
       role != '["ULB Tax Collector"]' && toast.success('Data Submitted Successfully !!!')
       setloader(false)
-      role == '["ULB Tax Collector"]' && setforward(true)
+      role == '["ULB Tax Collector"]' && setforward('true')
       // role != '["ULB Tax Collector"]' && navigate('/search/property')
       // navigate('/geoTagging/' + props?.applicationData?.id)
       // props.page(5)
@@ -148,7 +149,7 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
       toast.error('Something went wrong !!!')
       setloader(false)
       role == '["ULB Tax Collector"]' && setforward(false)
-      role == '["ULB Tax Collector"]' && setforwardStatus(false)
+      role == '["ULB Tax Collector"]' && setforwardStatus('false')
     }
     })
     .catch((err) => {
@@ -156,7 +157,7 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
       toast.error('Something went wrong !!!')
       setloader(false)
       role == '["ULB Tax Collector"]' && setforward(false)
-      role == '["ULB Tax Collector"]' && setforwardStatus(false)
+      role == '["ULB Tax Collector"]' && setforwardStatus('false')
     })
 
   }

@@ -15,6 +15,7 @@ import {FcCamera} from 'react-icons/fc'
 import {ImCross} from 'react-icons/im'
 import SubmissionScreen from '../../Common/SubmissionScreen';
 import ForwardScreen from '../../Common/ForwardScreen';
+import  exifr  from 'exifr';
 
 const GeoIndex = () => {
 
@@ -54,7 +55,7 @@ const GeoIndex = () => {
 
     const navigate = useNavigate()
 
-    const [forward, setforward] = useState(false)
+    const [forward, setforward] = useState('')
 
     const [frontImageUpload, setfrontImageUpload] = useState()
     const [frontUrl, setfrontUrl] = useState(null)
@@ -132,6 +133,7 @@ const GeoIndex = () => {
 
         axios.post(post_geoDocUpload, fd, ApiHeader2())
         .then((res) => {
+            setforward(res?.data?.status)
             if(res?.data?.status == true){
                 console.log("success images", res)
                 // props?.next('true')
@@ -140,14 +142,14 @@ const GeoIndex = () => {
                 // navigate('/search/property')
                 setsubmitStatus(true)
                 setloader(false)
-                setforward(true)
+                setforward('true')
             }
             if(res?.data?.status == false){
                 console.log("error images", res)
                 // props?.next('false')
                 setloader(false)
                 toast.error("Something Went Wrong !!!")
-                setforward(false)
+                setforward('false')
                 setforwardStatus(false)
                 setloader(false)
             }
@@ -157,9 +159,9 @@ const GeoIndex = () => {
             // props?.next('false')
             setloader(false)
             toast.error("Something Went Wrong !!!")
-            setforward(false)
-                setforwardStatus(false)
-                setloader(false)
+            setforward('false')
+            setforwardStatus(false)
+            setloader(false)
         })
     }
 
@@ -270,7 +272,7 @@ const GeoIndex = () => {
               const longitude = convertToDecimalDegrees(lng, lngRef);
               resolve({latitude, longitude});
             } else {
-              alert('Image does not have location. Turn on location first and then take a picture to upload...');
+                alert('Image does not have location. Turn on location first and then take a picture to upload...');
             }
           });
         });
@@ -284,13 +286,23 @@ const GeoIndex = () => {
         return direction === "S" || direction === "W" ? -decimalDegrees : decimalDegrees;
       }
 
+      async function getLocationFromImage(imageFile) {
+        const exifData = await exifr.parse(imageFile);
+        const { latitude, longitude } = exifData?.latitude && exifData?.longitude
+          ? { latitude: exifData.latitude, longitude: exifData.longitude }
+          : alert('Image does not have location. Turn on location first and then take a picture to upload...');
+      
+        return { latitude, longitude };
+      }
+
        // ===========to get location from image end here==================
 
     const handleImage = async (e) => {
         if (e.target.name == "frontImage"){
             setfrontCamera(false)
             let file = e.target.files[0];
-            const geoLocation = await getGeoLocation(file); // for location from image
+            console.log('image => ', e.target.files[0])
+            const geoLocation = await getLocationFromImage(file); // for location from image
             console.log("1 Image geo location:", geoLocation); // for location from image
             setfrontData(geoLocation)
             setfrontImageUpload(e.target.files[0]);
@@ -304,7 +316,7 @@ const GeoIndex = () => {
         if (e.target.name == "rightImage") {
             setrightCamera(false)
             let file = e.target.files[0];
-            const geoLocation = await getGeoLocation(file);
+            const geoLocation = await getLocationFromImage(file);
             console.log("2 Image geo location:", geoLocation);
             setrightData(geoLocation)
             setrightImageUpload(e.target.files[0]);
@@ -318,7 +330,7 @@ const GeoIndex = () => {
         if (e.target.name == "leftImage") {
             setleftCamera(false)
             let file = e.target.files[0];
-            const geoLocation = await getGeoLocation(file);
+            const geoLocation = await getLocationFromImage(file);
             console.log("3 Image geo location:", geoLocation);
             setleftData(geoLocation)
             setleftImageUpload(e.target.files[0]);
