@@ -24,7 +24,7 @@ const SearchApplications = () => {
   const {type} = useParams()
 
   const {
-    api_filterPropertyAppliedApplications, api_safInboxList, api_harvestingInboxList
+    api_filterPropertyAppliedApplications, api_safInboxList, api_harvestingInboxList, api_harvestingInboxList2
   } = ProjectApiList();
 
   const header = ApiHeader()
@@ -96,7 +96,14 @@ const SearchApplications = () => {
 
       let data;
 
-      type == 'harvesting' && (data = {url : api_harvestingInboxList, method : 'post'})
+      if(type == 'harvesting' && localStorage.getItem('roles') != '["ULB Tax Collector"]') {
+        data = {url : api_harvestingInboxList,
+                method : 'post'}
+        }
+      if(type == 'harvesting' && localStorage.getItem('roles') == '["ULB Tax Collector"]'){
+        data = {url : api_harvestingInboxList2, method : 'post'}
+      }
+      
       type == 'property' && (data = {url : api_safInboxList, method : 'get'})
 
     if(data?.method == 'post'){

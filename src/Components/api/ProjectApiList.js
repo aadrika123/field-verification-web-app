@@ -81,6 +81,8 @@ export default function ProjectApiList() {
 
         api_harvestingInboxList : `${baseUrl}/api/property/harvesting/inbox`,
 
+        api_harvestingInboxList2 : `${baseUrl}/api/property/harvesting/field-verification-inbox`, // for ulb tc
+
 
         // Bifurcation API List Start
 
