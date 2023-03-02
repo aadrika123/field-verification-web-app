@@ -127,6 +127,8 @@ export default function ProjectApiList() {
 
         //forward api 
         api_postApplicationToLevel: `${baseUrl}/api/property/saf/post/level`,
+
+        harvestingPostLevel : `${baseUrl}/api/property/harvesting/next-level`,  // for harvesting wf
         
 
 

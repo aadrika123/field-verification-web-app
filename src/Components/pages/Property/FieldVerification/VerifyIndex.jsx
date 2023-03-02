@@ -184,7 +184,7 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
 
     {role != '["ULB Tax Collector"]' && <SubmissionScreen heading={'Field Verification'} type='saf' process='verify' appNo={props?.applicationData?.saf_no} openSubmit={submitStatus} id={props?.applicationData?.id} navigation={() => navigate('/search/property')} forward={() => setforwardStatus(true)}/>}
 
-    <ForwardScreen openScreen={forwardStatus} id={props?.applicationData?.id} closePopUp={() => setforwardStatus(false)} canSubmit={forward} navigation={() => submitFun()} />
+    <ForwardScreen openScreen={forwardStatus} id={props?.applicationData?.id} closePopUp={() => setforwardStatus(false)} canSubmit={forward} navigation={() => submitFun()} type={'property'} />
     
         {!loader && 
         <div className='w-full'>

@@ -35,7 +35,10 @@ const HarvestingVerificationIndex = () => {
     const navigate = useNavigate()
 
     const validationSchema = yup.object({
-        harvestingImage : yup.mixed().required('image required'),
+        harvestingImage : yup.mixed().when([], {
+            is: () => localStorage.getItem('roles') != '["ULB Tax Collector"]',
+            then : () => yup.mixed().required('image required'),
+        })
     })
 
     const formik = useFormik({
@@ -266,7 +269,7 @@ const HarvestingVerificationIndex = () => {
     
     {loader && <CommonLoader />}
 
-    <ForwardScreen openScreen={forwardStatus} id={id} navigation={() => submitFun()} closePopUp={() => setforwardStatus(false)} canSubmit={forward} />
+    <ForwardScreen openScreen={forwardStatus} id={id} navigation={() => submitFun()} closePopUp={() => setforwardStatus(false)} canSubmit={forward} type={'harvesting'} />
 
         <div className='w-full'>
             <h1 className=' text-center font-bold text-xl border-b-2 border-gray-700 mx-4'>Field Verification <br />
@@ -357,7 +360,7 @@ const HarvestingVerificationIndex = () => {
                         </div>
 
                         <div className="col-span-12 px-2">
-                        <div className="grid grid-cols-12 text-sm pb-2">
+                        {localStorage.getItem('roles') != '["ULB Tax Collector"]' && <div className="grid grid-cols-12 text-sm pb-2">
                            
                                 <span className='col-span-12 grid grid-cols-12 mb-2'>
                                     <span className="col-span-4 text-sm flex items-center font-semibold">Upload :</span>
@@ -379,7 +382,7 @@ const HarvestingVerificationIndex = () => {
                             <span className="col-span-6 text-sm"><span className='font-semibold text-sm'>{harvestingImageData?.longitude}</span></span>
                         </span> */}
                             
-                    </div> 
+                    </div> }
                         </div>
 
                         <span className=' col-span-12 font-semibold text-center my-4 px-2'>

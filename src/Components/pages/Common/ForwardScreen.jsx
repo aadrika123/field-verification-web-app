@@ -12,7 +12,7 @@ const ForwardScreen = (props) => {
 
     const navigate = useNavigate()
     
-    const {api_postApplicationToLevel} = ProjectApiList()
+    const {api_postApplicationToLevel, harvestingPostLevel} = ProjectApiList()
 
     const [comment, setcomment] = useState('')
     const [loader, setloader] = useState(false)
@@ -55,9 +55,13 @@ const ForwardScreen = (props) => {
         }
         console.log('data before forward => ', body)
 
+        let url;
+        props?.type == 'property' && (url = api_postApplicationToLevel)
+        props?.type == 'harvesting' && (url = harvestingPostLevel)
+
        {props?.canSubmit == 'true' &&
 
-        axios.post(api_postApplicationToLevel, body, ApiHeader())
+        axios.post(url, body, ApiHeader())
         .then((res) => {
             if(res?.data?.status == true){
               setloader(false)
