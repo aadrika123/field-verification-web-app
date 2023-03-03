@@ -17,6 +17,7 @@ import WaterApplyIndex from "./Components/pages/Water/ApplyNewConnection/WaterAp
 import WaterConsumerSearch from "./Components/pages/Water/WaterSearch/WaterConsumerSearch";
 import ProtectedRoutes from "./Components/pages/ProtectedRoutes";
 import LandingDashboardNew from "./Components/pages/Dashboard/LandingDashboardNew";
+// import CitizenPropSafApplicationIndex from "./Components/pages/Property/ApplyForm/CitizenPropSafApplicationIndex";
 
 const App = () => {
   const [loader, setloader] = useState(false);
@@ -49,7 +50,7 @@ const App = () => {
  
 
       <contextVar.Provider value={contextData}>
-        <BrowserRouter>
+        <BrowserRouter basename="/mobile">
         
           <Routes>
             <Route index element={<Login />} />
@@ -70,6 +71,8 @@ const App = () => {
                   <Route path="/view-trade" element={<LandingDashboardNew/>} />
 
                   <Route path="/search/:type" element={<SearchApplications />} />
+
+                  {/* <Route path="/saf-apply" element={<CitizenPropSafApplicationIndex /> } /> */}
 
                   <Route path="/propVerify/:id" element={<VerifyForm />} />
 
