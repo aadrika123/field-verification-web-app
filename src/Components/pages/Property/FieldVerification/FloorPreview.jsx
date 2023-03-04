@@ -27,6 +27,10 @@ const FloorPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.floors[index]?.usage_type == '' ? 'N/A' : props?.applicationData?.floors[index]?.usage_type}</span>
                     </div>
+                    {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.floors[index]?.usage_type == '' ? 'N/A' : props?.tcData?.floors[index]?.usage_type}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -54,6 +58,11 @@ const FloorPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.floors[index]?.occupancy_type == '' ? 'N/A' : props?.applicationData?.floors[index]?.occupancy_type}</span>
                     </div>
+                     {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                    <span className=' col-span-6 font-semibold'>Agency TC</span>
+                    <span className='col-span-6'>{props?.tcData?.floors[index]?.occupancy_type == '' ? 'N/A' : props?.tcData?.floors[index]?.occupancy_type}</span>
+                </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -81,6 +90,11 @@ const FloorPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.floors[index]?.construction_type == '' ? 'N/A' : props?.applicationData?.floors[index]?.construction_type}</span>
                     </div>
+                     {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.floors[index]?.construction_type == '' ? 'N/A' : props?.tcData?.floors[index]?.construction_type}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -108,6 +122,11 @@ const FloorPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.floors[index]?.builtup_area == '' ? 'N/A' : props?.applicationData?.floors[index]?.builtup_area}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.floors[index]?.builtup_area == '' ? 'N/A' : props?.tcData?.floors[index]?.builtup_area}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -131,6 +150,11 @@ const FloorPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.floors[index]?.date_from == '' ? 'N/A' : props?.applicationData?.floors[index]?.date_from}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.floors[index]?.date_from == '' ? 'N/A' : props?.tcData?.floors[index]?.date_from}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -154,6 +178,11 @@ const FloorPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.floors[index]?.date_upto == '' ? 'N/A' : props?.applicationData?.floors[index]?.date_upto}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.floors[index]?.date_upto == '' ? 'N/A' : props?.tcData?.floors[index]?.date_upto}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>

@@ -61,6 +61,10 @@ const FloorRow = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.data?.usage_type == '' ? 'N/A' : props?.data?.usage_type}</span>
                     </div>
+                    {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData[props?.index]?.usage_type == '' ? 'N/A' : props?.tcData[props?.index]?.usage_type}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -99,6 +103,11 @@ const FloorRow = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.data?.occupancy_type == '' ? 'N/A' : props?.data?.occupancy_type}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                    <span className=' col-span-6 font-semibold'>Agency TC</span>
+                    <span className='col-span-6'>{props?.tcData[props?.index]?.occupancy_type == '' ? 'N/A' : props?.tcData[props?.index]?.occupancy_type}</span>
+                </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -137,6 +146,11 @@ const FloorRow = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.data?.construction_type == '' ? 'N/A' : props?.data?.construction_type}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData[props?.index]?.construction_type == '' ? 'N/A' : props?.tcData[props?.index]?.construction_type}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -175,6 +189,11 @@ const FloorRow = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.data?.builtup_area == '' ? 'N/A' : props?.data?.builtup_area}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData[props?.index]?.builtup_area == '' ? 'N/A' : props?.tcData[props?.index]?.builtup_area}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -206,6 +225,11 @@ const FloorRow = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.data?.date_from == '' ? 'N/A' : props?.data?.date_from}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData[props?.index]?.date_from == '' ? 'N/A' : props?.tcData[props?.index]?.date_from}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -237,6 +261,11 @@ const FloorRow = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.data?.date_upto == '' ? 'N/A' : props?.data?.date_upto}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData[props?.index]?.date_upto == '' ? 'N/A' : props?.tcData[props?.index]?.date_upto}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>

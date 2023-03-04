@@ -56,7 +56,7 @@ const App = () => {
             <Route index element={<Login />} />
           </Routes>
 
-            {(localStorage?.getItem('isLoggedIn') == 'true' && localStorage?.getItem('token') != '') && <TopBar /> }
+            {(localStorage?.getItem('isLoggedIn') == 'true' && localStorage?.getItem('token') != '' || localStorage?.getItem('isLoggedIn') == undefined && localStorage?.getItem('token') != undefined) && <TopBar /> }
             
             <Routes>
 

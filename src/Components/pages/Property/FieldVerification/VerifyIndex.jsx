@@ -40,6 +40,7 @@ const VerifyIndex = (props) => {
     const [allFormData, setallFormData] = useState()
     const [updatedData, setupdatedData] = useState()
     const [forward, setforward] = useState('')
+    const [utc, setutc] = useState(false)
 
     const [pageNo, setpageNo] = useState(1)
 
@@ -165,6 +166,10 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
 //   role == '["Tax Collector"]'
 // role == '["ULB Tax Collector"]'
 
+useEffect(() => {
+  localStorage.getItem('roles') == '["ULB Tax Collector"]' && setutc(true)
+},[])
+
   console.log('pre data => ', allFormData)
 
   const location = useLocation()
@@ -191,15 +196,15 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
 
             {(pageNo != 6 && !loader) && <div className='text-xs mb-1'>Page No.: {pageNo}/5</div>}
 
-            {pageNo == 1 && <BasicDetails applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun} preData={allFormData?.basic} />}
+            {pageNo == 1 && <BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun} preData={allFormData?.basic} />}
 
-            {pageNo == 2 && <FloorIndex applicationData={props?.applicationData?.floors} usageType={usageType} occupancyType={occupancyType} constructionList={constructionList} floorList={floorList} next={() => nextFun(2)} back={() => backFun(2)} collectData={collectDataFun} preData={allFormData} />}
+            {pageNo == 2 && <FloorIndex utc={utc} tcData={props?.applicationData?.floors} applicationData={props?.applicationData?.floors} usageType={usageType} occupancyType={occupancyType} constructionList={constructionList} floorList={floorList} next={() => nextFun(2)} back={() => backFun(2)} collectData={collectDataFun} preData={allFormData} />}
 
-            {pageNo == 3 && <ExtraDetails applicationData={props?.applicationData} next={() => nextFun(3)} back={() => backFun(3)} collectData={collectDataFun} preData={allFormData?.extra}  />}
+            {pageNo == 3 && <ExtraDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} next={() => nextFun(3)} back={() => backFun(3)} collectData={collectDataFun} preData={allFormData?.extra}  />}
 
-            {pageNo == 4 && <Remarks next={() => nextFun(4)} back={() => backFun(4)} collectData={collectDataFun} preData={allFormData?.remarks}  />}
+            {pageNo == 4 && <Remarks utc={utc} tcData={props?.applicationData} next={() => nextFun(4)} back={() => backFun(4)} collectData={collectDataFun} preData={allFormData?.remarks}  />}
 
-            {(pageNo == 5 && !loader) && <Preview next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /> }
+            {(pageNo == 5 && !loader) && <Preview utc={utc} tcData={props?.applicationData} next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /> }
 
         </div>}
     

@@ -100,6 +100,41 @@ waterHarvesting : yup.string().when([],{
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.is_hoarding_board ? 'Yes' : 'No'}</span>
                     </div>
+                    {
+                        props?.applicationData?.is_hoarding_board && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Installation Date of Hoarding Board(s)</span>
+                        <span className='col-span-6'>{props?.applicationData?.hoarding_installation_date}</span>
+                    </div>
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Total Floor Area of Roof / Land (in Sq. Ft.)</span>
+                        <span className='col-span-6'>{props?.applicationData?.hoarding_area}</span>
+                    </div>
+                        </>
+                    }
+                    {
+                        props?.utc && 
+                        <>
+                        
+                            <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.is_hoarding_board ? 'Yes' : 'No'}</span>
+                    </div>
+                    {
+                        props?.tcData?.is_hoarding_board && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Installation Date of Hoarding Board(s)</span>
+                        <span className='col-span-6'>{props?.tcData?.hoarding_installation_date}</span>
+                    </div>
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Total Floor Area of Roof / Land (in Sq. Ft.)</span>
+                        <span className='col-span-6'>{props?.tcData?.hoarding_area}</span>
+                    </div>
+                        </>
+                    }
+                        
+                        </>
+                    }
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -129,7 +164,7 @@ waterHarvesting : yup.string().when([],{
                       formik.values.hoardingBoard == 'true' && <>
                       
                       <div className="grid grid-cols-12 text-sm my-2">
-                        <span className='col-span-6 font-semibold'>Installation Date of Hoarding Board(s) :</span>
+                        <span className='col-span-6 font-semibold'>Installation Date of Hoarding Board(s)</span>
                         <span className='col-span-6'>
                             <input name='hoardingInstallation' type="date" disabled={hoardingStatus} value={hoardingStatus ? props?.applicationData?.hoarding_installation_date : formik.values.hoardingInstallation} className='bg-white px-2 py-1 w-full rounded-sm shadow-sm border-[1px] border-gray-400' />
                             <span>{formik.touched.hoardingInstallation && formik.errors.hoardingInstallation && <><span className="text-red-600 text-xs">{formik.errors.hoardingInstallation}</span></>}</span>
@@ -157,6 +192,41 @@ waterHarvesting : yup.string().when([],{
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.is_mobile_tower ? 'Yes' : 'No'}</span>
                     </div>
+                    {
+                        props?.applicationData?.is_mobile_tower && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Installation Date of Mobile Tower(s)</span>
+                        <span className='col-span-6'>{props?.applicationData?.tower_installation_date}</span>
+                    </div>
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Total Floor Area of Roof / Land (in Sq. Ft.)</span>
+                        <span className='col-span-6'>{props?.applicationData?.tower_area}</span>
+                    </div>
+                        </>
+                    }
+                    {
+                        props?.utc && 
+                        <>
+                        
+                            <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.is_mobile_tower ? 'Yes' : 'No'}</span>
+                    </div>
+                    {
+                        props?.tcData?.is_mobile_tower && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Installation Date of Mobile Tower(s)</span>
+                        <span className='col-span-6'>{props?.tcData?.tower_installation_date}</span>
+                    </div>
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Total Floor Area of Roof / Land (in Sq. Ft.)</span>
+                        <span className='col-span-6'>{props?.tcData?.tower_area}</span>
+                    </div>
+                        </>
+                    }
+                        
+                        </>
+                    }
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -214,6 +284,41 @@ waterHarvesting : yup.string().when([],{
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.is_petrol_pump ? 'Yes' : 'No'}</span>
                     </div>
+                    {
+                        props?.applicationData?.is_petrol_pump && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Completion Date of Petrol Pump</span>
+                        <span className='col-span-6'>{props?.applicationData?.petrol_pump_completion_date}</span>
+                    </div>
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Total Underground Area (in Sq. Ft.)</span>
+                        <span className='col-span-6'>{props?.applicationData?.under_ground_area}</span>
+                    </div>
+                        </>
+                    }
+                    {
+                        props?.utc && 
+                        <>
+                        
+                            <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.is_petrol_pump ? 'Yes' : 'No'}</span>
+                    </div>
+                    {
+                        props?.tcData?.is_petrol_pump && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Completion Date of Petrol Pump</span>
+                        <span className='col-span-6'>{props?.tcData?.petrol_pump_completion_date}</span>
+                    </div>
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Total Underground Area (in Sq. Ft.)</span>
+                        <span className='col-span-6'>{props?.tcData?.under_ground_area}</span>
+                    </div>
+                        </>
+                    }
+                        
+                        </>
+                    }
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
@@ -270,6 +375,14 @@ waterHarvesting : yup.string().when([],{
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.is_water_harvesting ? 'Yes' : 'No'}</span>
                     </div>
+                    {
+                        props?.utc && <>
+                        <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.is_water_harvesting ? 'Yes' : 'No'}</span>
+                    </div>
+                        </>
+                    }
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>

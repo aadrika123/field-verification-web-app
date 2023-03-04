@@ -17,6 +17,10 @@ const BasicPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.old_ward_no == '' ? 'N/A' : props?.applicationData?.old_ward_no}</span>
                     </div>
+                    {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.old_ward_no == '' ? 'N/A' : props?.tcData?.old_ward_no}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -44,6 +48,10 @@ const BasicPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.new_ward_no == '' ? 'N/A' : props?.applicationData?.new_ward_no}</span>
                     </div>
+                    {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.new_ward_no == '' ? 'N/A' : props?.tcData?.new_ward_no}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -74,6 +82,15 @@ const BasicPreview = (props) => {
                             {props?.applicationData?.zone_mstr_id == 2 && <>Zone-2</>}
                         </>}</span>
                     </div>
+                    {props?.utc && 
+                    <div className="grid grid-cols-12 text-sm pb-2">
+                    <span className=' col-span-6 font-semibold'>Agency TC</span>
+                    <span className='col-span-6'>{props?.tcData?.zone_mstr_id == '' ? 'N/A' : <>
+                        {props?.tcData?.zone_mstr_id == 1 && <>Zone-1</>}
+                        {props?.tcData?.zone_mstr_id == 2 && <>Zone-2</>}
+                    </>}</span>
+                </div>
+                }
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -98,6 +115,10 @@ const BasicPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.property_type == '' ? 'N/A' : props?.applicationData?.property_type}</span>
                     </div>
+                    {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.property_type == '' ? 'N/A' : props?.tcData?.property_type}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>
@@ -125,6 +146,10 @@ const BasicPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.area_of_plot == '' ? 'N/A' : props?.applicationData?.area_of_plot}</span>
                     </div>
+                     {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.area_of_plot == '' ? 'N/A' : props?.tcData?.area_of_plot}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         {props?.data?.areaCheck == 'true' ? 'Correct' : 'Incorrect'}
@@ -149,6 +174,10 @@ const BasicPreview = (props) => {
                         <span className=' col-span-6 font-semibold'>Self Assessed</span>
                         <span className='col-span-6'>{props?.applicationData?.road_type_master == '' ? 'N/A' : props?.applicationData?.road_type_master}</span>
                     </div>
+                    {props?.utc && <div className="grid grid-cols-12 text-sm pb-2">
+                        <span className=' col-span-6 font-semibold'>Agency TC</span>
+                        <span className='col-span-6'>{props?.tcData?.road_type_master == '' ? 'N/A' : props?.tcData?.road_type_master}</span>
+                    </div>}
                     <div className="grid grid-cols-12 text-sm pb-2">
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2'>

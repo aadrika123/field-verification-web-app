@@ -81,7 +81,7 @@ useEffect(() => {
         { 
           !addFloorStatus &&  props?.applicationData?.map((data, index) => (
             <>
-              {index == floorIndex && <FloorRow data={data} preData={prevFloor} index={index} next={nextFun} back={backFun} usageList={props?.usageType} occupancyList={props?.occupancyType} constructionList={props?.constructionList} floorList={props?.floorList} collectData={collectData}/>}
+              {index == floorIndex && <FloorRow utc={props?.utc} tcData={props?.tcData} data={data} preData={prevFloor} index={index} next={nextFun} back={backFun} usageList={props?.usageType} occupancyList={props?.occupancyType} constructionList={props?.constructionList} floorList={props?.floorList} collectData={collectData}/>}
             </>
             ))
         }
