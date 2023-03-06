@@ -21,6 +21,7 @@ import { allowFloatInput, getCurrentDate } from '../../Common/PowerUps/PowerupFu
 import { TiDelete } from 'react-icons/ti'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import { contextVar } from '../../Common/context/contextVar'
+import { toast } from 'react-toastify'
 
 
 function CitizenPropFloorDetails(props) {
@@ -82,7 +83,7 @@ function CitizenPropFloorDetails(props) {
     })
 
     useEffect(() => {
-        if (floorList?.length == 0 && props?.safType != 're' && props?.safType != 'mu') {
+        if (floorList?.length == 0 && props?.safType != 're' && props?.safType != 'mu' && props?.safType != 'cedit') {
             setAddFloorForm('translate-y-0 top-[100px]')
         }
     }, [])
@@ -90,7 +91,7 @@ function CitizenPropFloorDetails(props) {
 
     useEffect(() => {
 
-        if (props?.safType == 're' || props?.safType == 'mu') {
+        if (props?.safType == 're' || props?.safType == 'mu' || props?.safType == 'cedit') {
             feedPropertyData()
         }
     }, [props?.existingPropertyDetails])
@@ -104,6 +105,7 @@ function CitizenPropFloorDetails(props) {
             console.log('inside lenght >0..')
 
             let floorsMake = props?.existingPropertyDetails?.data?.data?.floors.map((owner) => {
+
                 return {
                     floorNo: owner?.floor_mstr_id,
                     useType: owner?.usage_type_mstr_id,
@@ -114,6 +116,7 @@ function CitizenPropFloorDetails(props) {
                     dateUpto: owner?.date_upto,
 
                 }
+
             })
 
             let previewFloorsMake = props?.existingPropertyDetails?.data?.data?.floors.map((owner) => {
@@ -190,7 +193,6 @@ function CitizenPropFloorDetails(props) {
 
     useEffect(() => {
         props.collectFormDataFun('floorDetails', floorList, floorPreviewList)
-        setfloorPreviewList(props?.prevData)
     }, [floorList, floorPreviewList])
 
     //function to edit owner from owner list via index
@@ -212,7 +214,7 @@ function CitizenPropFloorDetails(props) {
     }
     const checkMinimumFloor = () => {
         if (floorList.length === 0) {
-            notify('Add minimum one floor', 'warn')
+            toast.error('Add minimum one floor')
         } else {
             console.log('inside checkmin floor')
             props.collectFormDataFun('floorDetails', floorList, floorPreviewList)

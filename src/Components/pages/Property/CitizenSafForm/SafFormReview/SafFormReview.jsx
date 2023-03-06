@@ -46,37 +46,39 @@ const customStyles = {
 };
 
 function SafFormReview(props) {
-  const [rateChartText, setRateChartText] = useState("");
+  const [rateChartText, setRateChartText] = useState('')
 
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [taxDescriptionState, setTaxDescriptionState] = useState(false);
-  const [OtpModalIsOpen, setOtpModalIsOpen] = useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [taxDescriptionState, setTaxDescriptionState] = useState(true)
+    const [OtpModalIsOpen, setOtpModalIsOpen] = useState(false);
 
-  const navigate = useNavigate();
-  const toggleTaxDescription = () => {
-    setTaxDescriptionState(!taxDescriptionState);
-  };
 
-  console.log("form review data at review ss...", props?.formReviewData);
+    const navigate = useNavigate()
+    const toggleTaxDescription = () => {
+        setTaxDescriptionState(!taxDescriptionState)
+    }
 
-  function openModal(chartText) {
-    setIsOpen(true);
-    setRateChartText(chartText);
-  }
-  function closeModal() {
-    setIsOpen(false);
-    setRateChartText("");
-  }
+    console.log('form review data at review ss...', props?.formReviewData)
 
-  function openModalOTP() {
-    setOtpModalIsOpen(true);
-  }
+    function openModal(chartText) {
+        setIsOpen(true);
+        setRateChartText(chartText)
+    }
+    function closeModal() {
+        setIsOpen(false);
+        setRateChartText('')
+    }
 
-  function afterOtpOpenModal() {}
+    function openModalOTP() {
+        setOtpModalIsOpen(true);
+    }
 
-  function closeOtpModaal() {
-    setOtpModalIsOpen(false);
-  }
+    function afterOtpOpenModal() {
+    }
+
+    function closeOtpModaal() {
+        setOtpModalIsOpen(false);
+    }
 
   return (
     <>

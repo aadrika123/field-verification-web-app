@@ -19,6 +19,7 @@ import { allowCharacterNumberInput, allowCharacterSpaceCommaInput, allowMailInpu
 import { TiDelete } from 'react-icons/ti'
 import { AiFillInfoCircle } from 'react-icons/ai'
 import { contextVar } from '../../Common/context/contextVar'
+import { toast } from 'react-toastify'
 
 
 function CitizenPropOwnerDetails(props) {
@@ -26,8 +27,10 @@ function CitizenPropOwnerDetails(props) {
     const [ownerPreviewList, setownerPreviewList] = useState([])
     const [ownerPreviewForm, setownerPreviewForm] = useState()
     const [editStatus, setEditStatus] = useState(false) //to check edit or add of form
-    const [editIndex, setEditIndex] = useState() //to carry the index to edit if edistatus is true
+    const [editIndex, setEditIndex] = useState(null) //to carry the index to edit if edistatus is true
     const [AddOwnerForm, setAddOwnerForm] = useState('-translate-y-full -top-[800px]') //to hide and show ownerform with animation
+    const [restrictSpeciallyAbled, setrestrictSpeciallyAbled] = useState(false)
+    const [firstOwnerFixed, setfirstOwnerFixed] = useState(false) //to hide and show ownerform with animation
     const { notify } = useContext(contextVar)
     const [previousOwnerArrayLength, setpreviousOwnerArrayLength] = useState(0) //to carry the index to e
 
@@ -73,6 +76,7 @@ function CitizenPropOwnerDetails(props) {
             if (editStatus) {
                 editOwnerList(values)
                 setEditStatus(false)
+                setEditIndex(null) //extra 2
                 resetForm()
                 return
             }
@@ -99,7 +103,7 @@ function CitizenPropOwnerDetails(props) {
 
     useEffect(() => {
 
-        if (ownerList?.length == 0 && props?.safType != 're' && props?.safType != 'mu') {
+        if (ownerList?.length == 0 && props?.safType != 're' && props?.safType != 'mu' && props?.safType != 'cedit') {
             setAddOwnerForm('translate-y-0 top-[100px]')
             setCitizenDetails()
         }
@@ -111,10 +115,9 @@ function CitizenPropOwnerDetails(props) {
     }
     useEffect(() => {
 
-        if (props?.safType == 're' || props?.safType == 'mu') {
+        if (props?.safType == 're' || props?.safType == 'mu' || props?.safType == 'cedit') {
             feedPropertyData()
         }
-        // setownerPreviewList(props?.prevData)
     }, [props?.existingPropertyDetails])
 
     console.log('existing property details...', props?.existingPropertyDetails?.data?.data)
@@ -147,6 +150,7 @@ function CitizenPropOwnerDetails(props) {
                 if (owner?.is_specially_abled == false) {
                     spl = "0"
                 }
+                // IN CASE OF CITIZEN EDIT SEND ID ALSO
 
                 return {
                     ownerName: owner?.owner_name,
@@ -161,6 +165,8 @@ function CitizenPropOwnerDetails(props) {
                     isArmedForce: arm,
                     isSpeciallyAbled: spl,
                 }
+
+
             })
 
             let previewOwnersMake = props?.existingPropertyDetails?.data?.data?.owners.map((owner) => {
@@ -258,6 +264,7 @@ function CitizenPropOwnerDetails(props) {
 
 
         setEditStatus(false) //*seting edit status false after successfull edit
+        setEditIndex(null)
         toggleForm()
     }
 
@@ -335,7 +342,7 @@ function CitizenPropOwnerDetails(props) {
 
     const checkMinimumOwner = () => {
         if (ownerList.length === 0) {
-            props.toastFun('Add minimum one owner')
+            toast.error('Add minimum one owner')
         } else {
             props.collectFormDataFun('ownerDetails', ownerList, ownerPreviewList)
             props.nextFun(4)
@@ -359,6 +366,7 @@ function CitizenPropOwnerDetails(props) {
         { name == 'aadhar' && formik.setFieldValue("aadhar", allowNumberInput(value, formik.values.aadhar, 12)) }
         { name == 'pan' && formik.setFieldValue("pan", allowCharacterNumberInput(value, formik.values.pan, 10)) }
         { name == 'email' && formik.setFieldValue("email", allowMailInput(value, formik.values.email, 100)) }
+        { name == 'isArmedForce' && (value == 1 ? setrestrictSpeciallyAbled(true) : setrestrictSpeciallyAbled(false)) }
 
         //* Collecting owner details to preview
         if (e.target.type == 'select-one') {
@@ -368,7 +376,7 @@ function CitizenPropOwnerDetails(props) {
         }
 
     }
-    // console.log('owner preview list...', ownerPreviewList)
+    console.log('owner preview list...', ownerPreviewList)
     
     return (
         <>
@@ -430,25 +438,25 @@ function CitizenPropOwnerDetails(props) {
                                     <span className="text-red-600 absolute text-xs">{formik.touched.mobileNo && formik.errors.mobileNo ? formik.errors.mobileNo : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Aadhar No</label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Aadhar No<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                     <input {...formik.getFieldProps('aadhar')} type="text" className="form-control block w-full px-3 py-1.5 text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                                         placeholder="Enter aadhar no." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.aadhar && formik.errors.aadhar ? formik.errors.aadhar : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">PAN No.</label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">PAN No.<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                     <input {...formik.getFieldProps('pan')} type="text" className="form-control block w-full px-3 py-1.5 text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                                         placeholder="Enter pan no." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.pan && formik.errors.pan ? formik.errors.pan : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">email</label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Email<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                     <input {...formik.getFieldProps('email')} type="email" className="form-control block w-full px-3 py-1.5 text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md"
                                         placeholder="Enter email." />
                                     <span className="text-red-600 absolute text-xs">{formik.touched.email && formik.errors.email ? formik.errors.email : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Is-Armed-Force<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Armed Force ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                     <select ref={armedRef} {...formik.getFieldProps('isArmedForce')} className="form-control block w-full px-3 py-1.5 text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none shadow-md" >
                                         <option value=''>Select</option>
                                         <option value='0'>No</option>
@@ -457,7 +465,7 @@ function CitizenPropOwnerDetails(props) {
                                     <span className="text-red-600 absolute text-xs">{formik.touched.isArmedForce && formik.errors.isArmedForce ? formik.errors.isArmedForce : null}</span>
                                 </div>
                                 <div className="form-group col-span-12 mb-2 md:px-4">
-                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Is-Specially-Abled?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                    <label className="form-label inline-block mb-1 text-gray-600 text-sm font-semibold">Specially Abled ?<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
                                     <select ref={speciallyAbledRef} {...formik.getFieldProps('isSpeciallyAbled')} className="form-control block w-full px-3 py-1.5 text-sm  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none cursor-pointer shadow-md" >
                                         <option value=''>Select</option>
                                         <option value='0'>No</option>

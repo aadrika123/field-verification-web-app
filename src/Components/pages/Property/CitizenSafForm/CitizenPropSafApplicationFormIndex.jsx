@@ -44,11 +44,10 @@ import { Tooltip } from 'react-tooltip'
 function CitizenPropSafApplicationFormIndex() {
 
     const { api_getMasterData, api_postNewAssessment, api_getAllUlb, api_getHoldingDetails, api_getLocationByUlb, api_reviewCalculation, api_updateSafDetails } = CitizenApplyApiList()
-    // const { api_getStaticSafDetails } = ProjectApiList()
     const { notify } = useContext(contextVar)     //////global toast function/////
     const navigate = useNavigate()
     const [formIndex, setFormIndex] = useState(1) ///{***✅ formindex specifies type of form like basicdetails at index 1 ...***}///
-    const [animateform1, setAnimateform1] = useState(true) ////{***slide animation control state for BasicDetails form***}////
+    const [animateform1, setAnimateform1] = useState(true)
     const [animateform2, setAnimateform2] = useState(false)////{***slide animation control state for PropertyAddressDetails form***}///
     const [animateform3, setAnimateform3] = useState(false)//{***slide animation control state for ElectricityWaterDetails form***}//   
     const [animateform4, setAnimateform4] = useState(false)/////{*** slide animation control state for OwnerDetails form***}///
@@ -56,7 +55,7 @@ function CitizenPropSafApplicationFormIndex() {
     const [animateform6, setAnimateform6] = useState(false)////{***slide animation control state for reviewForm page***}////
     const [animateform7, setAnimateform7] = useState(false)///{*** slide animation control state for formDemand page***}///
     const [animateform8, setAnimateform8] = useState(false)/////{***slide animation control state for payment page***}////
-    const [animateform9, setAnimateform9] = useState(false)/////{***slide animation control state for payment page***}////
+    const [animateform9, setAnimateform9] = useState(false)
     const [preFormData, setPreFormData] = useState()///{***state variable to hold all form required data***}///
     const [safSubmitResponse, setsafSubmitResponse] = useState()////{***state variable to hold response data after submitting the saf form***}//
     const [show, setshow] = useState(false)////{***slide animation control state for BasicDetails form***}///
@@ -74,9 +73,17 @@ function CitizenPropSafApplicationFormIndex() {
     const [viewLevel, setviewLevel] = useState(1);
     const [zoneList, setzoneList] = useState();
     const [zoneValue, setzoneValue] = useState(false)
-    const viewRef = useRef(null)
     const [previewCloseStatus, setpreviewCloseStatus] = useState(false)
+    const [totalAmountData, settotalAmountData] = useState(null)
+    const [taxSumFullDetailsStatus, settaxSumFullDetailsStatus] = useState(false)
+    // PROPERTY TYPES STATE TO SKIP FLOOR DETAILS IF VACCANT LAND HAVING ID 4
+    const [propertyTypeState, setpropertyTypeState] = useState('')
+    const [apartmentStatus, setapartmentStatus] = useState(false)
+    const [welcomeScreenStatus, setwelcomeScreenStatus] = useState(true)
+    const [choosedUlbId, setchoosedUlbId] = useState(null)
 
+
+    const viewRef = useRef(null)
 
     // const moveToTop = () => {
     //     viewRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -128,6 +135,12 @@ function CitizenPropSafApplicationFormIndex() {
             setAnimateform5(false)
         }
         if (tempFormIndex == 6) {
+            if(propertyTypeState == 4){
+                setFormIndex(4)
+                setAnimateform6(false)
+                setAnimateform4(true)
+                return
+            }
             setFormIndex(5)
             setAnimateform5(true)
             setAnimateform6(false)
@@ -178,6 +191,12 @@ function CitizenPropSafApplicationFormIndex() {
             setAnimateform4(true)
         }
         if (tempFormIndex == 4) {
+            if(propertyTypeState == 4){
+                setFormIndex(6)
+                setAnimateform4(false)
+                setAnimateform6(true)
+                return
+            }
             setFormIndex(5)
             setAnimateform4(false)
             setAnimateform5(true)
@@ -218,6 +237,7 @@ function CitizenPropSafApplicationFormIndex() {
     ///// SUBMIT FORM /////
     const submitButtonToggle = () => {
         // alert("submitted")
+        console.log('final form ready to submit...', allFormData)
         submitSafForm()
     }
 
@@ -253,7 +273,7 @@ function CitizenPropSafApplicationFormIndex() {
                 corrPinCode: allFormData.propertyAddressDetails.pin,
             }
         }
-
+        let url
         let assessmentSpecific
         if (safType == 'new') {
             assessmentSpecific = {
@@ -289,6 +309,14 @@ function CitizenPropSafApplicationFormIndex() {
                 propertyType: allFormData.basicDetails.propertyType,//done
                 dateOfPurchase: '',// what is this ?
                 ownershipType: allFormData.basicDetails.ownerShiptype,//done
+                landOccupationDate: allFormData.basicDetails.landOccupationDate,
+                // APT-6
+                apartmentDetail: allFormData.basicDetails.apartment,
+                appartmentName: allFormData.basicDetails.appartmentName,
+                buildingName: allFormData.propertyAddressDetails.buildingName,
+                streetName: allFormData.propertyAddressDetails.streetName,
+                location: allFormData.propertyAddressDetails.location2,
+                landmark: allFormData.propertyAddressDetails.landmark,
 
                 zone: allFormData.additionalDetails.zone,//done
                 isMobileTower: allFormData.additionalDetails.mobileTowerStatus,//done
@@ -371,7 +399,16 @@ function CitizenPropSafApplicationFormIndex() {
                 // zone: allFormData.basicDetails.zone,//done
                 zone: 1,//done
                 isOwnerChanged: 0,
-                landOccupationDate: null,
+                landOccupationDate: allFormData.basicDetails.landOccupationDate,
+                // APT-6
+                apartmentDetail: allFormData.basicDetails.apartment,
+                appartmentName: allFormData.basicDetails.appartmentName,
+                buildingName: allFormData.propertyAddressDetails.buildingName,
+                streetName: allFormData.propertyAddressDetails.streetName,
+                location: allFormData.propertyAddressDetails.location2,
+                landmark: allFormData.propertyAddressDetails.landmark,
+
+
                 isMobileTower: allFormData.additionalDetails.mobileTowerStatus,//done
                 mobileTower: {
                     area: allFormData.additionalDetails.mobileTowerArea,//done
@@ -441,7 +478,17 @@ function CitizenPropSafApplicationFormIndex() {
                 dateOfPurchase: allFormData.basicDetails.dateOfPurchase,
                 ulbId: allFormData.basicDetails.ulbId,
                 previousHoldingId: safId,
-                transferModeId: 1,
+                transferModeId: allFormData.basicDetails.transferMode,
+                landOccupationDate: allFormData.basicDetails.landOccupationDate,
+                // APT-6
+                apartmentDetail: allFormData.basicDetails.apartment,
+                appartmentName: allFormData.basicDetails.appartmentName,
+                buildingName: allFormData.propertyAddressDetails.buildingName,
+                streetName: allFormData.propertyAddressDetails.streetName,
+                location: allFormData.propertyAddressDetails.location2,
+                landmark: allFormData.propertyAddressDetails.landmark,
+
+
                 assessmentType: 3,
                 // propertyAssessment:existingPropertyDetails?.data?.data?.assessment_type, //previous assessment type of this property
                 holdingNo: existingPropertyDetails?.data?.data?.holding_no,
@@ -511,31 +558,298 @@ function CitizenPropSafApplicationFormIndex() {
             }
         }
 
+        //AMALGAMATION CASE
+        if (safType == 'am') {
+            requestBody = {
+
+                // basic details
+                dateOfPurchase: allFormData.basicDetails.dateOfPurchase,
+                ulbId: allFormData.basicDetails.ulbId,
+                previousHoldingId: safId,
+                transferModeId: allFormData.basicDetails.transferMode,
+                landOccupationDate: allFormData.basicDetails.landOccupationDate,
+                // APT-6
+                apartmentDetail: allFormData.basicDetails.apartment,
+                appartmentName: allFormData.basicDetails.appartmentName,
+                buildingName: allFormData.propertyAddressDetails.buildingName,
+                streetName: allFormData.propertyAddressDetails.streetName,
+                location: allFormData.propertyAddressDetails.location2,
+                landmark: allFormData.propertyAddressDetails.landmark,
+
+                assessmentType: 3,
+                holdingNoLists: allFormData.basicDetails.holdingNoLists,
+                // propertyAssessment:existingPropertyDetails?.data?.data?.assessment_type, //previous assessment type of this property
+                ward: allFormData.basicDetails.wardNo, //done
+                newWard: allFormData.basicDetails.newWardNo,
+                propertyType: allFormData.basicDetails.propertyType,//done
+                ownershipType: allFormData.basicDetails.ownerShiptype,//done
+
+                zone: allFormData.additionalDetails.zone,//done
+                isOwnerChanged: 1,
+                isMobileTower: allFormData.additionalDetails.mobileTowerStatus,//done
+                mobileTower: {
+                    area: allFormData.additionalDetails.mobileTowerArea,//done
+                    dateFrom: allFormData.additionalDetails.mobileTowerDate//done
+                },
+                isHoardingBoard: allFormData.additionalDetails.hoardingStatus,//done
+                hoardingBoard: {
+                    area: allFormData.additionalDetails.hoardingArea,//done
+                    dateFrom: allFormData.additionalDetails.hoardingDate,//done
+                },
+                isPetrolPump: allFormData.additionalDetails.petrolPumpStatus,//done
+                petrolPump: {
+                    area: allFormData.additionalDetails.petrolPumpArea,//done
+                    dateFrom: allFormData.additionalDetails.petrolPumpDate//done
+                },
+
+                isWaterHarvesting: allFormData.additionalDetails.waterHarvestingStatus,//done
+                //** ELECTRICITY & WATER DETAILS
+                // electricityConnection: true,
+                electricityCustNo: allFormData.electricityWaterDetails.electricityKNo,
+                electricityAccNo: allFormData.electricityWaterDetails.electricityAccNo,
+                electricityBindBookNo: allFormData.electricityWaterDetails.bindBookNo,
+                electricityConsCategory: allFormData.electricityWaterDetails.electrictyConsumerNo,
+                buildingPlanApprovalNo: allFormData.electricityWaterDetails.bpApprovalNo,
+                buildingPlanApprovalDate: allFormData.electricityWaterDetails.bpApprovalDate,
+                waterConnNo: allFormData.electricityWaterDetails.waterConsumerNo,
+                waterConnDate: allFormData.electricityWaterDetails.waterConnectionDate,
+
+                //** PROPERTY ADDRESS EXTRA
+                khataNo: allFormData.propertyAddressDetails.khataNo,
+                plotNo: allFormData.propertyAddressDetails.plotNo,
+                villageMaujaName: allFormData.propertyAddressDetails.villageMaujaName,
+                roadType: allFormData.propertyAddressDetails.roadWidth,//done
+                areaOfPlot: allFormData.propertyAddressDetails.plotArea,//done
+
+                //* PROPERTY ADDRESS MAIN
+                propCity: allFormData?.propertyAddressDetails?.city,
+                propDist: allFormData?.propertyAddressDetails?.district,
+                propPinCode: allFormData?.propertyAddressDetails?.pin,
+                propState: allFormData?.propertyAddressDetails?.state,
+                propAddress: allFormData?.propertyAddressDetails?.locality,
+
+                //* CORRESPONDING ADDRESS
+                corrCity: correspondingAddress?.corrCity,
+                corrDist: correspondingAddress?.corrDist,
+                corrPinCode: correspondingAddress?.corrPinCode,
+                corrState: correspondingAddress?.corrState,
+                propAddress: correspondingAddress?.corrAddress,
+
+                //** owner
+                owner: allFormData.ownerDetails,
+
+                //** floor
+                floor: allFormData.floorDetails //done
+
+
+            }
+
+        }
+        //BIFURCATION CASE
+        if (safType == 'bi') {
+            requestBody = {
+
+                // basic details
+                dateOfPurchase: allFormData.basicDetails.dateOfPurchase,
+                ulbId: allFormData.basicDetails.ulbId,
+                previousHoldingId: safId,
+                transferModeId: allFormData.basicDetails.transferMode,
+                landOccupationDate: allFormData.basicDetails.landOccupationDate,
+                // APT-6
+                apartmentDetail: allFormData.basicDetails.apartment,
+                appartmentName: allFormData.basicDetails.appartmentName,
+                buildingName: allFormData.propertyAddressDetails.buildingName,
+                streetName: allFormData.propertyAddressDetails.streetName,
+                location: allFormData.propertyAddressDetails.location2,
+                landmark: allFormData.propertyAddressDetails.landmark,
+
+                assessmentType: 3,
+                holdingNo: allFormData.basicDetails.holdingNo,
+                // propertyAssessment:existingPropertyDetails?.data?.data?.assessment_type, //previous assessment type of this property
+                ward: allFormData.basicDetails.wardNo, //done
+                newWard: allFormData.basicDetails.newWardNo,
+                propertyType: allFormData.basicDetails.propertyType,//done
+                ownershipType: allFormData.basicDetails.ownerShiptype,//done
+
+                zone: allFormData.additionalDetails.zone,//done
+                isOwnerChanged: 1,
+                isMobileTower: allFormData.additionalDetails.mobileTowerStatus,//done
+                mobileTower: {
+                    area: allFormData.additionalDetails.mobileTowerArea,//done
+                    dateFrom: allFormData.additionalDetails.mobileTowerDate//done
+                },
+                isHoardingBoard: allFormData.additionalDetails.hoardingStatus,//done
+                hoardingBoard: {
+                    area: allFormData.additionalDetails.hoardingArea,//done
+                    dateFrom: allFormData.additionalDetails.hoardingDate,//done
+                },
+                isPetrolPump: allFormData.additionalDetails.petrolPumpStatus,//done
+                petrolPump: {
+                    area: allFormData.additionalDetails.petrolPumpArea,//done
+                    dateFrom: allFormData.additionalDetails.petrolPumpDate//done
+                },
+
+                isWaterHarvesting: allFormData.additionalDetails.waterHarvestingStatus,//done
+                //** ELECTRICITY & WATER DETAILS
+                // electricityConnection: true,
+                electricityCustNo: allFormData.electricityWaterDetails.electricityKNo,
+                electricityAccNo: allFormData.electricityWaterDetails.electricityAccNo,
+                electricityBindBookNo: allFormData.electricityWaterDetails.bindBookNo,
+                electricityConsCategory: allFormData.electricityWaterDetails.electrictyConsumerNo,
+                buildingPlanApprovalNo: allFormData.electricityWaterDetails.bpApprovalNo,
+                buildingPlanApprovalDate: allFormData.electricityWaterDetails.bpApprovalDate,
+                waterConnNo: allFormData.electricityWaterDetails.waterConsumerNo,
+                waterConnDate: allFormData.electricityWaterDetails.waterConnectionDate,
+
+                //** PROPERTY ADDRESS EXTRA
+                khataNo: allFormData.propertyAddressDetails.khataNo,
+                plotNo: allFormData.propertyAddressDetails.plotNo,
+                villageMaujaName: allFormData.propertyAddressDetails.villageMaujaName,
+                roadType: allFormData.propertyAddressDetails.roadWidth,//done
+                areaOfPlot: allFormData.propertyAddressDetails.plotArea,//done
+
+                //* PROPERTY ADDRESS MAIN
+                propCity: allFormData?.propertyAddressDetails?.city,
+                propDist: allFormData?.propertyAddressDetails?.district,
+                propPinCode: allFormData?.propertyAddressDetails?.pin,
+                propState: allFormData?.propertyAddressDetails?.state,
+                propAddress: allFormData?.propertyAddressDetails?.locality,
+
+                //* CORRESPONDING ADDRESS
+                corrCity: correspondingAddress?.corrCity,
+                corrDist: correspondingAddress?.corrDist,
+                corrPinCode: correspondingAddress?.corrPinCode,
+                corrState: correspondingAddress?.corrState,
+                propAddress: correspondingAddress?.corrAddress,
+
+                //** owner
+                owner: allFormData.ownerDetails,
+
+                //** floor
+                floor: allFormData.floorDetails //done
+
+
+            }
+
+        }
+
+        //* REQUESTBODY FOR CITIZEN EDIT
+        if (safType == 'cedit') {
+            requestBody = {
+
+                id: existingPropertyDetails?.data?.data?.id,
+                // basic details
+                dateOfPurchase: allFormData.basicDetails.dateOfPurchase,
+                ulbId: allFormData.basicDetails.ulbId,
+                previousHoldingId: safId,
+                transferModeId: allFormData.basicDetails.transferMode,
+                landOccupationDate: allFormData.basicDetails.landOccupationDate,
+                // APT-6
+                apartmentDetail: allFormData.basicDetails.apartment,
+                appartmentName: allFormData.basicDetails.appartmentName,
+                buildingName: allFormData.propertyAddressDetails.buildingName,
+                streetName: allFormData.propertyAddressDetails.streetName,
+                location: allFormData.propertyAddressDetails.location2,
+                landmark: allFormData.propertyAddressDetails.landmark,
+
+                assessmentType: 3,
+                // propertyAssessment:existingPropertyDetails?.data?.data?.assessment_type, //previous assessment type of this property
+                holdingNo: existingPropertyDetails?.data?.data?.holding_no,
+                ward: allFormData.basicDetails.wardNo, //done
+                newWard: allFormData.basicDetails.newWardNo,
+                propertyType: allFormData.basicDetails.propertyType,//done
+                ownershipType: allFormData.basicDetails.ownerShiptype,//done
+
+                zone: allFormData.additionalDetails.zone,//done
+                isOwnerChanged: 1,
+                isMobileTower: allFormData.additionalDetails.mobileTowerStatus,//done
+                mobileTower: {
+                    area: allFormData.additionalDetails.mobileTowerArea,//done
+                    dateFrom: allFormData.additionalDetails.mobileTowerDate//done
+                },
+                isHoardingBoard: allFormData.additionalDetails.hoardingStatus,//done
+                hoardingBoard: {
+                    area: allFormData.additionalDetails.hoardingArea,//done
+                    dateFrom: allFormData.additionalDetails.hoardingDate,//done
+                },
+                isPetrolPump: allFormData.additionalDetails.petrolPumpStatus,//done
+                petrolPump: {
+                    area: allFormData.additionalDetails.petrolPumpArea,//done
+                    dateFrom: allFormData.additionalDetails.petrolPumpDate//done
+                },
+
+                isWaterHarvesting: allFormData.additionalDetails.waterHarvestingStatus,//done
+                //** ELECTRICITY & WATER DETAILS
+                // electricityConnection: true,
+                electricityCustNo: allFormData.electricityWaterDetails.electricityKNo,
+                electricityAccNo: allFormData.electricityWaterDetails.electricityAccNo,
+                electricityBindBookNo: allFormData.electricityWaterDetails.bindBookNo,
+                electricityConsCategory: allFormData.electricityWaterDetails.electrictyConsumerNo,
+                buildingPlanApprovalNo: allFormData.electricityWaterDetails.bpApprovalNo,
+                buildingPlanApprovalDate: allFormData.electricityWaterDetails.bpApprovalDate,
+                waterConnNo: allFormData.electricityWaterDetails.waterConsumerNo,
+                waterConnDate: allFormData.electricityWaterDetails.waterConnectionDate,
+
+                //** PROPERTY ADDRESS EXTRA
+                khataNo: allFormData.propertyAddressDetails.khataNo,
+                plotNo: allFormData.propertyAddressDetails.plotNo,
+                villageMaujaName: allFormData.propertyAddressDetails.villageMaujaName,
+                roadType: allFormData.propertyAddressDetails.roadWidth,//done
+                areaOfPlot: allFormData.propertyAddressDetails.plotArea,//done
+
+                //* PROPERTY ADDRESS MAIN
+                propCity: allFormData?.propertyAddressDetails?.city,
+                propDist: allFormData?.propertyAddressDetails?.district,
+                propPinCode: allFormData?.propertyAddressDetails?.pin,
+                propState: allFormData?.propertyAddressDetails?.state,
+                propAddress: allFormData?.propertyAddressDetails?.locality,
+
+                //* CORRESPONDING ADDRESS
+                corrCity: correspondingAddress?.corrCity,
+                corrDist: correspondingAddress?.corrDist,
+                corrPinCode: correspondingAddress?.corrPinCode,
+                corrState: correspondingAddress?.corrState,
+                propAddress: correspondingAddress?.corrAddress,
+
+                //** owner
+                owner: allFormData.ownerDetails,
+
+                //** floor
+                floor: allFormData.floorDetails //done
+
+
+            }
+        }
+
+
+        if (safType == 'cedit') {
+            url = api_editCitizenSaf
+        } else {
+            url = api_postNewAssessment
+        }
+
         console.log('form submit request body....', requestBody)
 
-        //* setting api urls for new, re and mutation case
-        // let url
-        // if(safType=='new'){
-        //     url = api_postNewAssessment
-        // }
-        // if(safType=='re'){
-        //     url = api_postNewAssessment
-        // }
-        // if(safType=='mu'){
-        //     url = api_postNewAssessment
-        // }
+
 
         // return
-        axios.post(`${api_postNewAssessment}`, requestBody, ApiHeader())
+        axios.post(url, requestBody, ApiHeader())
             .then(function (response) {
                 // setloader(false)
                 console.log('response after pushing saf data', response)
                 if (response?.data?.status) {
-                    // notify('Saf Successfull submitted...','success')
-                    toast.success("SAF Successfully Submitted !!")
-                    setsafSubmitResponse(response.data)
+
+                    // IN CASE OF CITIZEN EDIT DON'T SEND TO NEXT PAGE
+                    if (safType == 'cedit') {
+                        toast.success("Application has been updated successfully !!")
+                        setFormIndex(9)
+                    } else {
+                        toast.success("SAF Successfully Submitted !!")
+                        setsafSubmitResponse(response.data)
+                        nextFun(7)
+                    }
                     setLoaderStatus(false)
-                    nextFun(7)
+
                 } else {
                     notify('Something went wrong in applying', 'error')
                     setLoaderStatus(false)
@@ -580,7 +894,7 @@ function CitizenPropSafApplicationFormIndex() {
         setsafTypeCame(safType)
         fetchMasterData()
         fetchULBList()
-        if (safType == 're' || safType == 'mu') {
+        if (safType == 're' || safType == 'mu' || 'cedit') {
             fetchPropertyDetails()
         }
 
@@ -616,12 +930,26 @@ function CitizenPropSafApplicationFormIndex() {
             propertyId: safId
             // propertyId: 54 //staic for checking
         }
+        let url
+        // CITIZEN EDIT CASE
+        if (safType == 'cedit') {
+            url = api_getStaticSafDetails
+            requestBody = {
+                applicationId: safId
+            }
+        } else {
+            url = api_getHoldingDetails
+            requestBody = {
+                propertyId: safId
+            }
+        }
+
         setLoaderStatus(true)
 
         console.log('body before finding prop', requestBody)
-        axios.post(`${api_getHoldingDetails}`, requestBody, ApiHeader())
+        axios.post(url, requestBody, ApiHeader())
             .then(function (response) {
-                console.log('getting property detail for re assesment ...', response)
+                console.log('getting property detail for edit case......', response)
                 setexistingPropertyDetails(response)
                 setLoaderStatus(false)
             })
@@ -672,6 +1000,7 @@ function CitizenPropSafApplicationFormIndex() {
         const requestBody = {
             ulbId: allFormData.basicDetails.ulbId,
             assessmentType: "1",
+            landOccupationDate: allFormData.basicDetails.landOccupationDate,
             // ward: basicDetails?.wardNo,
             ward: allFormData?.basicDetails?.wardNo,
             newWard: allFormData?.basicDetails?.newWardNo,
@@ -709,8 +1038,10 @@ function CitizenPropSafApplicationFormIndex() {
             .post(api_reviewCalculation, requestBody, ApiHeader())
             .then(function (response) {
                 console.log("==3 cacluator tax response===", response);
+                settotalAmountData(response?.data?.data?.demand)
                 setrulesetData(response?.data);
                 setLoaderStatus(false)
+
 
                 // setisLoading(false);
                 // setsubmitButtonStatus(true);
@@ -723,6 +1054,7 @@ function CitizenPropSafApplicationFormIndex() {
                 // setsubmitButtonStatus(true);
             });
     };
+
 
     return (
         <>
@@ -740,13 +1072,36 @@ function CitizenPropSafApplicationFormIndex() {
 
                 {(formIndex < 7) && <div className='text-xs mb-1 mx-4'>Page No.: {formIndex}/6</div>}
                                 {formIndex < 8 && <>
-                                    {animateform1 && <CitizenPropBasicDetail3 setzoneList={setzoneList} getLocationByUlb={getLocationByUlb} safType={safType} existingPropertyDetails={existingPropertyDetails} prevData={allFormData?.basicDetails} ulbList={ulbList} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} formIndex />}
-                                    {animateform2 && <CitizenPropPropertyAddressDetails ulbLocation={ulbLocation} safType={safType} existingPropertyDetails={existingPropertyDetails} prevData={allFormData?.propertyAddressDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} formIndex />}
-                                    {animateform3 && <CitizenPropElectricityWaterDetails safType={safType} existingPropertyDetails={existingPropertyDetails} prevData={allFormData?.electricityWaterDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} backFun={backFun} nextFun={nextFun} formIndex />}
-                                    {animateform4 && <CitizenPropOwnerDetails safType={safType} existingPropertyDetails={existingPropertyDetails} prevData={allFormData?.ownerDetails} preFormData={preFormData} assType={assTypeText} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} formIndex />}
-                                    {animateform5 && <CitizenPropFloorDetails safType={safType} existingPropertyDetails={existingPropertyDetails} prevData={allFormData?.floorDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} formIndex />}
-                                    {animateform6 && <CitizenPropAdditionalDetails submitRuelsetData={submitRuelsetData} zoneValue={zoneValue} setzoneValue={setzoneValue} zoneList={zoneList} getLocationByUlb={getLocationByUlb} safType={safType} existingPropertyDetails={existingPropertyDetails} prevData={allFormData?.additionalDetails} ulbList={ulbList} preFormData={preFormData} collectFormDataFun={collectAllFormData} allFormData={allFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} formIndex />}
-                                    {(formIndex == 7 && animateform7) && <SafFormReview safType={safType} zoneValue={zoneValue} rulesetData={rulesetData} formReviewData={allFormPreviewData} collectFormDataFun={collectAllFormData} submitFun={submitButtonToggle} toastFun={notify} backFun={backFun} nextFun={nextFun} />}
+
+                                <div className={(animateform1 ? `visible` : `hidden`)}><CitizenPropBasicDetail3  choosedUlbId={choosedUlbId} apartmentStatus={apartmentStatus} setapartmentStatus={setapartmentStatus} setpropertyTypeState={setpropertyTypeState} propertyTypeState={propertyTypeState} setzoneList={setzoneList} getLocationByUlb={getLocationByUlb} safType={safType} existingPropertyDetails={existingPropertyDetails} ulbList={ulbList} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={(animateform2 ? `visible` : `hidden`)}><CitizenPropPropertyAddressDetails  apartmentStatus={apartmentStatus} ulbLocation={ulbLocation} safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={(animateform3 ? `visible` : `hidden`)}><CitizenPropElectricityWaterDetails safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={(animateform4 ? `visible` : `hidden`)}><CitizenPropOwnerDetails  safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} assType={assTypeText} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={(animateform5 ? `visible` : `hidden`)}><CitizenPropFloorDetails  safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={(animateform6 ? `visible` : `hidden`)}><CitizenPropAdditionalDetails  submitRuelsetData={submitRuelsetData} zoneValue={zoneValue} setzoneValue={setzoneValue} zoneList={zoneList} getLocationByUlb={getLocationByUlb} safType={safType} existingPropertyDetails={existingPropertyDetails} ulbList={ulbList} preFormData={preFormData} collectFormDataFun={collectAllFormData} allFormData={allFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={((formIndex == 7 && animateform7) ? `visible` : `hidden`)}><SafFormReview propertyTypeState={propertyTypeState} zoneValue={zoneValue} rulesetData={rulesetData} formReviewData={allFormPreviewData} collectFormDataFun={collectAllFormData} submitFun={submitButtonToggle} toastFun={notify} backFun={backFun} nextFun={nextFun} /></div>
+
+                                <div className={((formIndex == 8 && animateform8) ? `visible` : `hidden`)}><SafFormDemand toastFun={notify} backFun={backFun} nextFun={nextFun} safSubmitResponse={safSubmitResponse} showLoader={showLoader} /></div>
+
+                                <div className={((formIndex == 9 && animateform9) ? `visible` : `hidden`)}><div>
+                                        <div>Changes Saved Successfully !</div>
+                                        <button type="button" className="px-6 py-2.5 bg-indigo-600 text-white font-medium text-xs leading-tight  rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Back to Workflow</button>
+                                    </div></div>
+
+                                    {/* {animateform1 && <CitizenPropBasicDetail3  choosedUlbId={choosedUlbId} apartmentStatus={apartmentStatus} setapartmentStatus={setapartmentStatus} setpropertyTypeState={setpropertyTypeState} propertyTypeState={propertyTypeState} setzoneList={setzoneList} getLocationByUlb={getLocationByUlb} safType={safType} existingPropertyDetails={existingPropertyDetails} ulbList={ulbList} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} />}
+                                    {animateform2 && <CitizenPropPropertyAddressDetails  apartmentStatus={apartmentStatus} ulbLocation={ulbLocation} safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} />}
+                                    {animateform3 && <CitizenPropElectricityWaterDetails safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} backFun={backFun} nextFun={nextFun} />}
+                                    {animateform4 && <CitizenPropOwnerDetails  safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} assType={assTypeText} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} />}
+                                    {animateform5 && <CitizenPropFloorDetails  safType={safType} existingPropertyDetails={existingPropertyDetails} preFormData={preFormData} collectFormDataFun={collectAllFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} />}
+                                    {animateform6 && <CitizenPropAdditionalDetails  submitRuelsetData={submitRuelsetData} zoneValue={zoneValue} setzoneValue={setzoneValue} zoneList={zoneList} getLocationByUlb={getLocationByUlb} safType={safType} existingPropertyDetails={existingPropertyDetails} ulbList={ulbList} preFormData={preFormData} collectFormDataFun={collectAllFormData} allFormData={allFormData} toastFun={notify} backFun={backFun} nextFun={nextFun} />}
+                                    {(formIndex == 7 && animateform7) && <SafFormReview propertyTypeState={propertyTypeState} zoneValue={zoneValue} rulesetData={rulesetData} formReviewData={allFormPreviewData} collectFormDataFun={collectAllFormData} submitFun={submitButtonToggle} toastFun={notify} backFun={backFun} nextFun={nextFun} />} */}
+                                    
                                 </>}
                 </div>
                                

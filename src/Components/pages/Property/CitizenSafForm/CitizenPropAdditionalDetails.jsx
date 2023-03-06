@@ -25,12 +25,7 @@ function CitizenPropAdditionalDetails(props) {
 
     console.log("passing master data to basic detail form", props.preFormData)
     const validationSchema = yup.object({
-        // ulbId: yup.string().required('Select ULB'),
-        // wardNo: yup.string().required('Select ward'),
-        // newWardNo: yup.string().required('Select new ward'),
-        // ownerShiptype: yup.string().required('Select ownership type'),
-        // propertyType: yup.string().required('Select property'),
-        zone: yup.string(),
+        zone: yup.string().required('Select zone'),
         mobileTowerStatus: yup.string().required('Select mobile tower status'),
         hoardingStatus: yup.string().required('Select hoarding status'),
         petrolPumpStatus: yup.string().required('Select petrol pump status'),
@@ -64,16 +59,16 @@ function CitizenPropAdditionalDetails(props) {
 
     const initialValues = {
         zone: '',
-        mobileTowerStatus:props?.prevData?.mobileTowerStatus,
-        hoardingStatus:props?.prevData?.hoardingStatus,
-        petrolPumpStatus:props?.prevData?.petrolPumpStatus,
-        waterHarvestingStatus:props?.prevData?.waterHarvestingStatus,
-        mobileTowerArea: props?.prevData?.mobileTowerArea,
-        hoardingArea: props?.prevData?.hoardingArea,
-        petrolPumpArea: props?.prevData?.petrolPumpArea,
-        mobileTowerDate: props?.prevData?.mobileTowerDate,
-        hoardingDate: props?.prevData?.hoardingDate,
-        petrolPumpDate: props?.prevData?.petrolPumpDate
+        mobileTowerStatus: '0',
+        hoardingStatus: '0',
+        petrolPumpStatus: '0',
+        waterHarvestingStatus: '0',
+        mobileTowerArea: '',
+        hoardingArea: '',
+        petrolPumpArea: '',
+        mobileTowerDate: '',
+        hoardingDate: '',
+        petrolPumpDate: ''
     };
 
     const formik = useFormik({
@@ -124,7 +119,7 @@ function CitizenPropAdditionalDetails(props) {
     useEffect(() => {
 
 
-        if (props?.safType == 're' || props?.safType == 'mu') {
+        if (props?.safType == 're' || props?.safType == 'mu' || props?.safType == 'cedit') {
             feedPropertyData()
         }
     }, [props?.existingPropertyDetails])

@@ -30,9 +30,15 @@ function CitizenPropBasicDetail3(props) {
     const [wardByUlb, setwardByUlb] = useState()
     const [newWardList, setnewWardList] = useState()
     const [selectedUlbId, setselectedUlbId] = useState()
+    const [holdingNoList, setholdingNoList] = useState([])
+
+    const [apartmentList, setapartmentList] = useState()
+    const [apartmentName, setapartmentName] = useState('')
+    const [holdingVerificationStatus, setholdingVerificationStatus] = useState(false)
+
     const [basicViewForm, setbasicViewForm] = useState({ mobileTowerStatus: '0', hoardingStatus: '0', petrolPumpStatus: '0', waterHarvestingStatus: '0' })
 
-    const { api_wardByUlb, api_newWardByOldWard, api_zoneByUlb } = CitizenApplyApiList()
+    const { api_wardByUlb, api_newWardByOldWard, api_zoneByUlb, api_verifyHolding, api_getApartmentListByWard } = CitizenApplyApiList()
 
     console.log("passing master data to basic detail form", props.preFormData)
     const validationSchema = yup.object({
@@ -43,22 +49,39 @@ function CitizenPropBasicDetail3(props) {
         newWardNo: yup.string().required('Select new ward'),
         ownerShiptype: yup.string().required('Select ownership type'),
         propertyType: yup.string().required('Select property'),
+        apartment: yup.string(),
+        landOccupationDate: yup.string()
     })
 
     const initialValues = {
-        transferMode: props?.prevData?.transferMode,
-        dateOfPurchase: props?.prevData?.dateOfPurchase,
-        ulbId: props?.prevData?.ulbId,
-        wardNo: props?.prevData?.wardNo,
-        newWardNo: props?.prevData?.newWardNo,
-        ownerShiptype: props?.prevData?.ownerShiptype,
-        propertyType: props?.prevData?.propertyType,
+        transferMode: '',
+        dateOfPurchase: '',
+        ulbId: '',
+        wardNo: '',
+        newWardNo: '',
+        ownerShiptype: '',
+        propertyType: '',
+        landOccupationDate: '',
+        apartment: ''
     };
 
     const formik = useFormik({
         initialValues: initialValues,
         enableReinitialize: true,
         onSubmit: (values, resetForm) => {
+
+            // INJECTING HOLDING NO ARRAY IF AMALGAMATION CASE 
+            if (props?.safType == 'am') {
+                values.holdingNoLists = holdingNoList
+            }
+
+            // APT-5 INJECTING APARTMENT NAME IN CASE OF FLATS 
+            if (props?.apartmentStatus == true) {
+                values.appartmentName = apartmentName //NOT NEED TO SET APARTMENT ID AS IT IS ALREADY IN APARTMENT KEY
+            }
+
+
+
             console.log('basic deatils ', values)
             props.collectFormDataFun('basicDetails', values, basicViewForm) //sending BasicDetails data to parent to store all form data at one container
             props.nextFun(1) //forwarding to next form level
@@ -84,6 +107,22 @@ function CitizenPropBasicDetail3(props) {
         { name == 'ulbId' && fetchWardByUlb(value) }
         { name == 'ulbId' && fetchZoneByUlb(value) }
         { name == 'wardNo' && fetchNewWardByOldWard(value) }
+        { name == 'wardNo' && fetchApartmentByOldWard(value) }
+
+        // 1 VACCANT LAND DIRECT CASE
+        { name == 'propertyType' && props?.setpropertyTypeState(value) }
+
+        // APT-2 SHOW APARtMENT INPUT IF FLATS SELECTED
+        if (name == 'propertyType') {
+            { value == 3 ? props?.setapartmentStatus(true) : props?.setapartmentStatus(false) }
+        }
+
+        // APT-3 SET APARTMENT NAME
+        if (name == 'apartment') {
+            setapartmentName(event.target[event.target.selectedIndex].text)
+        }
+
+
 
         //* Collecting basic details to preview
         if (event.target.type == 'select-one') {
@@ -97,12 +136,23 @@ function CitizenPropBasicDetail3(props) {
 
     useEffect(() => {
 
-        if (props?.safType == 're' || props?.safType == 'mu') {
+        if (props?.safType == 're' || props?.safType == 'mu' || props?.safType == 'cedit') {
             feedPropertyData()
+        }
+        if (props?.safType == 'new') {
+            feedUlbDetails()
         }
     }, [props?.existingPropertyDetails])
 
     console.log('existing property details...', props?.existingPropertyDetails?.data?.data)
+
+    // SETTING ULBID FROM WELCOME SCREEN
+    const feedUlbDetails = () => {
+        formik.setFieldValue('ulbId', props?.choosedUlbId)
+        props?.getLocationByUlb(props?.choosedUlbId)
+        fetchWardByUlb(props?.choosedUlbId)
+        fetchZoneByUlb(props?.choosedUlbId)
+    }
 
     const feedPropertyData = () => {
 
@@ -121,6 +171,9 @@ function CitizenPropBasicDetail3(props) {
         formik.setFieldValue('ownerShiptype', props?.existingPropertyDetails?.data?.data?.ownership_type_mstr_id)
         formik.setFieldValue('propertyType', props?.existingPropertyDetails?.data?.data?.prop_type_mstr_id)
         // formik.setFieldValue('zone', props?.existingPropertyDetails?.data?.data?.zone_mstr_id)
+
+        // 2 VACCANT LAND REASSESSMENT / MUTATION CASE
+        props?.setpropertyTypeState(props?.existingPropertyDetails?.data?.data?.prop_type_mstr_id)
 
         //* ARRANGING MAIN DATA
         basicDetails = {
@@ -194,6 +247,57 @@ function CitizenPropBasicDetail3(props) {
             })
             .catch(function (error) {
                 console.log('errorrr.... ', error);
+            })
+    }
+
+    // APT-4 FETCHING APARTMENTLIST IN CASE OF FLATS BY WARD NO
+    const fetchApartmentByOldWard = (oldWardId) => {
+        let requestBody = {
+            wardMstrId: oldWardId,
+            ulbId: selectedUlbId
+        }
+        console.log('before fetch apartment by old ward...', requestBody)
+
+        axios.post(api_getApartmentListByWard, requestBody, ApiHeader())
+            .then(function (response) {
+                console.log('apartment list ....', response.data.data)
+                setapartmentList(response.data.data)
+            })
+            .catch(function (error) {
+                console.log('apartment error.... ', error);
+            })
+    }
+
+    // FUNCTION TO REMOVE HOLDING ROW INPUT
+    const removeHoldingNo = (index) => {
+        setholdingNoList(current =>
+            current.filter((ct, cIndex) => {
+                return cIndex != index
+            }),
+        );
+    }
+
+    // FUNCTION TO ADD HOLDING ROW INPUT
+    const addHoldingRow = () => {
+        let tempHoldingRowCount = [...holdingNoList]
+        let modifiedRowCount = [...tempHoldingRowCount, formik.values?.holdingNo]
+        setholdingNoList(modifiedRowCount)
+        formik.setFieldValue('holdingNo', '')
+    }
+
+    const verifyHolding = () => {
+        let requestBody = {
+            holdingNo: formik.values.holdingNo,
+            ulbId: 2
+        }
+        axios.post(api_verifyHolding, requestBody, ApiHeader())
+            .then(function (response) {
+                console.log('verify holding response..', response.data)
+                setholdingVerificationStatus(response?.data?.status)
+
+            })
+            .catch(function (error) {
+                console.log('verify holding error.... ', error);
             })
     }
 
@@ -319,6 +423,28 @@ function CitizenPropBasicDetail3(props) {
                                 <span className="text-red-600 text-xs">{formik.touched.propertyType && formik.errors.propertyType ? formik.errors.propertyType : null}</span>
                                 </span>
                             </div>
+
+                            {props?.apartmentStatus && <div className="grid grid-cols-12 text-sm text-gray-700 mb-6">
+                            <label className='col-span-12 font-semibold mb-2'>Apartment<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                                <span className='col-span-12'>
+                                <select {...formik.getFieldProps('apartment')} className={`${commonInputStyle} cursor-pointer cypress_property_type`}
+                                >
+                                    <option value="" >Select</option>
+                                    {
+                                        apartmentList?.map((data) => (
+                                            <option value={data.id}>{data.apartment_name}</option>
+                                        ))
+                                    }
+                                </select></span>
+                                <span className="text-red-600  text-xs">{formik.touched.apartment && formik.errors.apartment ? formik.errors.apartment : null}</span>
+                            </div>}
+                            {props?.propertyTypeState == 4 && <div className="grid grid-cols-12 text-sm text-gray-700 mb-6">
+                            <label className='col-span-12 font-semibold mb-2'>Land Purchase Date<small className="mt-1 text-sm font-semibold text-red-600 inline ">*</small></label>
+                                                                <span className='col-span-12'>
+                                <input {...formik.getFieldProps('landOccupationDate')} type='date' className={`${commonInputStyle} cursor-pointer cypress_property_type`}
+                                /></span>
+                                <span className="text-red-600  text-xs">{formik.touched.landOccupationDate && formik.errors.landOccupationDate ? formik.errors.landOccupationDate : null}</span>
+                            </div>}
 
                             <div className=' text-center col-span-12 mt-10'>
                                 <button type="submit" className="cypress_next1_button px-4 py-1.5 bg-indigo-500 text-white font-medium text-xs leading-tight  rounded  hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Save & Next</button>

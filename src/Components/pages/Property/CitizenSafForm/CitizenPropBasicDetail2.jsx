@@ -235,6 +235,7 @@ function CitizenPropBasicDetail2(props) {
     let safType = props.safType
     console.log("saf type...", props.safType)
     console.log('preview basic detals....', basicViewForm)
+    
     return (
         <>
             {/* <div className='mt-6 mb-2 font-serif font-semibold absolute text-gray-600 w-full'><FaHome className="inline mr-2" /><span>Basic Details</span>{props?.safType != 'new' && <span className='inline-block float-right'> <span className='font-normal'>Holding No. : </span>{props?.existingPropertyDetails?.data?.data?.holding_no}</span>}</div> */}

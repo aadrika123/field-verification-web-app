@@ -194,7 +194,7 @@ useEffect(() => {
         {!loader && 
         <div className='w-full'>
 
-            {(pageNo != 6 && !loader) && <div className='text-xs mb-1'>Page No.: {pageNo}/5</div>}
+            {(pageNo != 6 && !loader) && <div className='text-xs mb-1'>Step: {pageNo}/5</div>}
 
             {pageNo == 1 && <BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun} preData={allFormData?.basic} />}
 

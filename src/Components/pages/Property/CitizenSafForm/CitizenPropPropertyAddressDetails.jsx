@@ -19,37 +19,45 @@ import { allowCharacterInput, allowNumberCommaInput, allowCharacterSpaceCommaInp
 function CitizenPropPropertyAddressDetails(props) {
     const [formOpen, setformOpen] = useState(false)
     const validationSchema = yup.object({
-        addressCheckbox: yup.boolean(),
+        // addressCheckbox: yup.boolean(),
         khataNo: yup.string().required('Enter khat no.').max(50, 'Enter maximum 50 characters'),
         plotNo: yup.string().required('Enter plot no'),
         village_mauja: yup.string().required('Enter village/mauja name'),
         plotArea: yup.string().required('Enter area of plot'),
         roadWidth: yup.string().required('Enter road width'),
-        city: yup.string().required('Enter city'),
-        district: yup.string().required('Enter district'),
-        state: yup.string().required('Enter state'),
+        // city: yup.string().required('Enter city'),
+        // district: yup.string().required('Enter district'),
+        // state: yup.string().required('Enter state'),
         pin: yup.string().required('Enter pin').min(6, 'Enter minimum 6 digit'),
         locality: yup.string().required('Enter locality '),
-        c_city: yup.string().when('addressCheckbox', {
-            is: true,
-            then: yup.string().required('Enter city')
-        }),
-        c_district: yup.string().when('addressCheckbox', {
-            is: true,
-            then: yup.string().required('Enter district')
-        }),
-        c_state: yup.string().when('addressCheckbox', {
-            is: true,
-            then: yup.string().required('Enter state')
-        }),
-        c_pin: yup.string().when('addressCheckbox', {
-            is: true,
-            then: yup.string().required('Enter pin').min(6, 'Enter minimum 6 digit'),
-        }),
-        c_locality: yup.string().when('addressCheckbox', {
-            is: true,
-            then: yup.string().required('Enter locality')
-        }),
+
+        // c_city: yup.string().when('addressCheckbox', {
+        //     is: true,
+        //     then: yup.string().required('Enter city')
+        // }),
+        // c_district: yup.string().when('addressCheckbox', {
+        //     is: true,
+        //     then: yup.string().required('Enter district')
+        // }),
+        // c_state: yup.string().when('addressCheckbox', {
+        //     is: true,
+        //     then: yup.string().required('Enter state')
+        // }),
+        // c_pin: yup.string().when('addressCheckbox', {
+        //     is: true,
+        //     then: yup.string().required('Enter pin').min(6, 'Enter minimum 6 digit'),
+        // }),
+        // c_locality: yup.string().when('addressCheckbox', {
+        //     is: true,
+        //     then: yup.string().required('Enter locality')
+        // }),
+
+        // APT-7 EXTRA DATA
+        // buildingName: yup.string(),
+        // streetName: yup.string().required('Enter streetName  '),
+        // location2: yup.string().required('Enter location  '),
+        // landmark: yup.string().required('Enter landmark  '),
+        // EXTRA DATA
         // c_city: yup.string().required('Enter city'),
         // c_district: yup.string().required('Enter district'),
         // c_state: yup.string().required('Enter state'),
@@ -59,22 +67,27 @@ function CitizenPropPropertyAddressDetails(props) {
     })
     const formik = useFormik({
         initialValues: {
-            khataNo:props?.prevData?.khataNo,
-            plotNo:props?.prevData?.plotNo,
-            village_mauja:props?.prevData?.village_mauja,
-            plotArea:props?.prevData?.plotArea,
-            roadWidth:props?.prevData?.roadWidth,
-            city:props?.prevData?.city, //static later fetch with ulbId onchange
-            district:props?.prevData?.district, //static later fetch with ulbId onchange
-            state:props?.prevData?.state, //static later fetch with ulbId onchange
-            pin:props?.prevData?.pin,
-            locality:props?.prevData?.locality,
-            addressCheckbox:props?.prevData?.addressCheckbox,
-            c_city:props?.prevData?.c_city,
-            c_district:props?.prevData?.c_district,
-            c_state:props?.prevData?.c_state,
-            c_pin:props?.prevData?.c_pin,
-            c_locality:props?.prevData?.c_locality,
+            addressCheckbox: '',
+            khataNo: '',
+            plotNo: '',
+            village_mauja: '',
+            plotArea: '',
+            roadWidth: '',
+            city: 'Ranchi', //static later fetch with ulbId onchange
+            district: 'Ranchi', //static later fetch with ulbId onchange
+            state: 'Jharkhand', //static later fetch with ulbId onchange
+            pin: '',
+            locality: '',
+            c_city: '',
+            c_district: '',
+            c_state: '',
+            c_pin: '',
+            c_locality: '',
+            // APT-7 EXTRA DATA
+            buildingName: '',
+            streetName: '',
+            location2: '',
+            landmark: '',
             // addressCheckbox: false
         },
 
@@ -110,13 +123,16 @@ function CitizenPropPropertyAddressDetails(props) {
         { name == 'c_locality' && formik.setFieldValue("c_locality", allowCharacterNumberSpaceCommaInput(value, formik.values.c_locality, 200)) }
     }
     useEffect(() => {
-        if (props?.safType == 're' || props?.safType == 'mu') {
+        if (props?.safType == 're' || props?.safType == 'mu' || props?.safType == 'cedit') {
             feedPropertyData()
         }
     }, [props?.existingPropertyDetails, props?.safType])
     useEffect(() => {
         setLocationByUlb()
     }, [props?.ulbLocation])
+
+
+
 
     const setLocationByUlb = () => {
         console.log('inside location in address...', props?.ulbLocation)
@@ -224,7 +240,7 @@ function CitizenPropPropertyAddressDetails(props) {
 
                         <div className="grid grid-cols-12 justify-center items-center -p-6">
                             <div className="col-span-4 flex justify-center items-center w-full h-[1px] bg-blue-200"></div>
-                            <div className='flex justify-center items-center col-span-4'><label className=" text-gray-800"> <small className="block mt-1 text-xs text-blue-400 inline md:px-4 font-mono text-center">Basic Address</small></label></div>
+                            <div className='flex justify-center items-center col-span-4'><label className=" text-gray-800"> <small className="block mt-1 text-xs text-blue-400 inline md:px-4 font-mono text-center">Address</small></label></div>
                             <div className="col-span-4 flex justify-center items-center w-full h-[1px] bg-blue-200"></div>
                         </div>
 

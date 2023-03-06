@@ -47,7 +47,7 @@ return (
 
                                                       <div className='w-full md:w-[40%] grid grid-cols-12'>
                                                           <div className='col-span-6 text-xs text-gray-600'>Apply Date</div>
-                                                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{props?.dataList?.apply_date ==''?'N/A':props?.dataList?.apply_date}{props?.dataList?.application_date ==''?'N/A':props?.dataList?.application_date}</div>
+                                                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{props?.dataList?.date ==''?'N/A':props?.dataList?.date}</div>
                                                           
                                                       </div>
 
