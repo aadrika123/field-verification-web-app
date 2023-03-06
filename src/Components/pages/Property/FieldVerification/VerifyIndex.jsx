@@ -41,6 +41,7 @@ const VerifyIndex = (props) => {
     const [updatedData, setupdatedData] = useState()
     const [forward, setforward] = useState('')
     const [utc, setutc] = useState(false)
+    const [vacantStatus, setvacantStatus] = useState(false)
 
     const [pageNo, setpageNo] = useState(1)
 
@@ -72,13 +73,25 @@ const VerifyIndex = (props) => {
     }, [])
 
   const nextFun = (val) => {
+    if(val== 1 && vacantStatus){
+      setpageNo(val+2)
+      return
+    }
     setpageNo(val+1)
     // val == 4 && mergeFloorFun()
   }
 
   const backFun = (val) => {
+    if(val == 3 && vacantStatus){
+      setpageNo(val-2)
+      return
+    }
     setpageNo(val-1)
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pageNo]);
 
   const collectDataFun = (key, formData) => {
     console.log('prev of all Data', allFormData)
@@ -168,6 +181,7 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
 
 useEffect(() => {
   localStorage.getItem('roles') == '["ULB Tax Collector"]' && setutc(true)
+  props?.applicationData?.prop_type_mstr_id == 4 ? setvacantStatus(true) : setvacantStatus(false)
 },[])
 
   console.log('pre data => ', allFormData)
@@ -196,7 +210,19 @@ useEffect(() => {
 
             {(pageNo != 6 && !loader) && <div className='text-xs mb-1'>Step: {pageNo}/5</div>}
 
-            {pageNo == 1 && <BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun} preData={allFormData?.basic} />}
+            <div className={pageNo == 1 ? 'visible' : 'hidden'}><BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun}  /></div>
+
+            <div className={pageNo == 2 ? 'visible' : 'hidden'}><FloorIndex utc={utc} tcData={props?.applicationData?.floors} applicationData={props?.applicationData?.floors} usageType={usageType} occupancyType={occupancyType} constructionList={constructionList} floorList={floorList} next={() => nextFun(2)} back={() => backFun(2)} collectData={collectDataFun} preData={allFormData} /></div>
+
+            <div className={pageNo == 3 ? 'visible' : 'hidden'}><ExtraDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} next={() => nextFun(3)} back={() => backFun(3)} collectData={collectDataFun}  /></div>
+
+
+
+            <div className={pageNo == 4 ? 'visible' : 'hidden'}><Remarks utc={utc} tcData={props?.applicationData} next={() => nextFun(4)} back={() => backFun(4)} collectData={collectDataFun}  /></div>
+
+            <div className={(pageNo == 5 && !loader) ? 'visible' : 'hidden'}><Preview utc={utc} tcData={props?.applicationData} next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /></div>
+
+            {/* {pageNo == 1 && <BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun} preData={allFormData?.basic} />}
 
             {pageNo == 2 && <FloorIndex utc={utc} tcData={props?.applicationData?.floors} applicationData={props?.applicationData?.floors} usageType={usageType} occupancyType={occupancyType} constructionList={constructionList} floorList={floorList} next={() => nextFun(2)} back={() => backFun(2)} collectData={collectDataFun} preData={allFormData} />}
 
@@ -204,7 +230,7 @@ useEffect(() => {
 
             {pageNo == 4 && <Remarks utc={utc} tcData={props?.applicationData} next={() => nextFun(4)} back={() => backFun(4)} collectData={collectDataFun} preData={allFormData?.remarks}  />}
 
-            {(pageNo == 5 && !loader) && <Preview utc={utc} tcData={props?.applicationData} next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /> }
+            {(pageNo == 5 && !loader) && <Preview utc={utc} tcData={props?.applicationData} next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /> } */}
 
         </div>}
     

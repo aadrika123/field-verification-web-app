@@ -3,6 +3,10 @@ import FloorDetails from './FloorDetails'
 import FloorRow from './FloorRow'
 
 const FloorIndex = (props) => {
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [floorIndex, setfloorIndex] = useState(0)
 

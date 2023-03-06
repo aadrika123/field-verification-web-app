@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 const ExtraDetails = (props) => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     const [hoardingStatus, sethoardingStatus] = useState(false)
     const [mobileStatus, setmobileStatus] = useState(false)

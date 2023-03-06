@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 const BasicDetails = (props) => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     const [oldWardStatus, setoldWardStatus] = useState(false)
     const [newWardStatus, setnewWardStatus] = useState(false)

@@ -51,9 +51,9 @@ const SubmissionScreen = (props) => {
         contentLabel="Example Modal"
       >
         <div class=" rounded-lg shadow-lg shadow-indigo-300 md:w-[50vw] md:h-max w-full relative border-2 border-indigo-500 bg-gray-50 px-2 m-2 py-4 h-max border-t-2 border-l-2 overflow-auto">
-        {(props?.process == 'verify' && role == '["Tax Collector"]') && <div className="absolute top-2 z-10 bg-red-200 hover:bg-red-300 right-2 rounded-full p-2 cursor-pointer" onClick={() => closeAction()}>
+        {/* {(props?.process == 'verify' && role == '["Tax Collector"]') && <div className="absolute top-2 z-10 bg-red-200 hover:bg-red-300 right-2 rounded-full p-2 cursor-pointer" onClick={() => closeAction()}>
                     <ImCross fontSize={10}/>
-                </div>}
+                </div>} */}
 
           <div className="poppins text-xl font-semibold w-full pt-6 md:px-8 px-2">
             <div className="bg-indigo-600 font-semibold rounded-sm w-full 2xl:text-2xl text-lg text-center shadow-sm text-white px-4 py-2 poppins uppercase">

@@ -10,6 +10,9 @@ import { TiDelete } from 'react-icons/ti'
 import { AiFillInfoCircle } from 'react-icons/ai'
 
 const FloorDetails = (props) => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     const [floorList, setfloorList] = useState([])
     const [floorPreviewList, setfloorPreviewList] = useState([])

@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 const Remarks = (props) => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const validationSchema = yup.object({
     remarks : yup.string().required('required field !!!')

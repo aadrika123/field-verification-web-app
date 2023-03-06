@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BasicPreview from './BasicPreview'
 import ExtraPreview from './ExtraPreview'
 import FloorPreview from './FloorPreview'
 
 const Preview = (props) => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // console.log('all data', props?.allData)
 

@@ -1,8 +1,12 @@
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import 'animate.css'
 
 const FloorRow = (props) => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
 
     const [useTypeStatus, setuseTypeStatus] = useState(false)
     const [occupancyTypeStatus, setoccupancyTypeStatus] = useState(false)
@@ -20,7 +24,7 @@ const FloorRow = (props) => {
             constructionType: props?.preData[props?.index]?.constructionType,
             buildupArea: props?.preData[props?.index]?.buildupArea,
             dateFrom: props?.preData[props?.index]?.dateFrom,
-            dateUpto: props?.preData[props?.index]?.dateUpto
+            dateUpto: props?.preData[props?.index]?.dateUpto,
         },
 
         enableReinitialize : true,
@@ -69,11 +73,11 @@ const FloorRow = (props) => {
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
-                            <input type="radio" name="useTypeStatus" required id="check1" value={true} />
+                            <input type="radio" name="useTypeStatus" required id="check1" checked={props?.preData[props?.index]?.useTypeStatus == 'true' ? true : null} value={true} />
                             <label htmlFor="check 1">Correct</label>
                             </span>
                             <span className='flex gap-1'>
-                            <input type="radio" name="useTypeStatus" required id="check2" value={false} />
+                            <input type="radio" name="useTypeStatus" required id="check2" value={false} checked={props?.preData[props?.index]?.useTypeStatus == 'false' ? true : null} />
                             <label htmlFor="check 2">Incorrect</label>
                             </span>
                         </span>
@@ -112,11 +116,11 @@ const FloorRow = (props) => {
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
-                            <input type="radio" name="occupancyTypeStatus" required id="check1" value={true} />
+                            <input type="radio" name="occupancyTypeStatus" required id="check1" checked={props?.preData[props?.index]?.occupancyTypeStatus == 'true' ? true : null} value={true} />
                             <label htmlFor="check 1">Correct</label>
                             </span>
                             <span className='flex gap-1'>
-                            <input type="radio" name="occupancyTypeStatus" required id="check2" value={false} />
+                            <input type="radio" name="occupancyTypeStatus" required id="check2" value={false} checked={props?.preData[props?.index]?.occupancyTypeStatus == 'false' ? true : null} />
                             <label htmlFor="check 2">Incorrect</label>
                             </span>
                         </span>
@@ -155,11 +159,11 @@ const FloorRow = (props) => {
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
-                            <input type="radio" name="constructionTypeStatus" required id="check1" value={true} />
+                            <input type="radio" name="constructionTypeStatus" required id="check1" checked={props?.preData[props?.index]?.constructionTypeStatus == 'true' ? true : null} value={true} />
                             <label htmlFor="check 1">Correct</label>
                             </span>
                             <span className='flex gap-1'>
-                            <input type="radio" name="constructionTypeStatus" required id="check2" value={false} />
+                            <input type="radio" name="constructionTypeStatus" required id="check2" value={false} checked={props?.preData[props?.index]?.constructionTypeStatus == 'false' ? true : null} />
                             <label htmlFor="check 2">Incorrect</label>
                             </span>
                         </span>
@@ -198,11 +202,11 @@ const FloorRow = (props) => {
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
-                            <input type="radio" name="buildupAreaStatus" required id="check1" value={true} />
+                            <input type="radio" name="buildupAreaStatus" required id="check1" checked={props?.preData[props?.index]?.buildupAreaStatus == 'true' ? true : null} value={true} />
                             <label htmlFor="check 1">Correct</label>
                             </span>
                             <span className='flex gap-1'>
-                            <input type="radio" name="buildupAreaStatus" required id="check2" value={false} />
+                            <input type="radio" name="buildupAreaStatus" required id="check2" value={false} checked={props?.preData[props?.index]?.buildupAreaStatus == 'false' ? true : null} />
                             <label htmlFor="check 2">Incorrect</label>
                             </span>
                         </span>
@@ -234,11 +238,11 @@ const FloorRow = (props) => {
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
-                            <input type="radio" name="dateFromStatus" required id="check1" value={true} />
+                            <input type="radio" name="dateFromStatus" required id="check1" checked={props?.preData[props?.index]?.dateFromStatus == 'true' ? true : null} value={true} />
                             <label htmlFor="check 1">Correct</label>
                             </span>
                             <span className='flex gap-1'>
-                            <input type="radio" name="dateFromStatus" required id="check2" value={false} />
+                            <input type="radio" name="dateFromStatus" required id="check2" value={false} checked={props?.preData[props?.index]?.dateFromStatus == 'false' ? true : null} />
                             <label htmlFor="check 2">Incorrect</label>
                             </span>
                         </span>
@@ -270,11 +274,11 @@ const FloorRow = (props) => {
                         <span className='col-span-6 font-semibold'>Check</span>
                         <span className='col-span-6 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
-                            <input type="radio" name="dateUptoStatus" required id="check1" value={true} />
+                            <input type="radio" name="dateUptoStatus" required id="check1" checked={props?.preData[props?.index]?.dateUptoStatus == 'true' ? true : null} value={true} />
                             <label htmlFor="check 1">Correct</label>
                             </span>
                             <span className='flex gap-1'>
-                            <input type="radio" name="dateUptoStatus" required id="check2" value={false} />
+                            <input type="radio" name="dateUptoStatus" required id="check2" value={false} checked={props?.preData[props?.index]?.dateUptoStatus == 'false' ? true : null} />
                             <label htmlFor="check 2">Incorrect</label>
                             </span>
                         </span>
