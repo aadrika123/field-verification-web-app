@@ -42,12 +42,13 @@ const VerifyIndex = (props) => {
     const [forward, setforward] = useState('')
     const [utc, setutc] = useState(false)
     const [vacantStatus, setvacantStatus] = useState(false)
+    const [tcAllData, settcAllData] = useState([])
 
     const [pageNo, setpageNo] = useState(1)
 
     const [loader, setloader] = useState(false)
 
-    const {api_getSafMasterData, post_SiteVerification} = ProjectApiList()
+    const {api_getSafMasterData, post_SiteVerification, getTcData} = ProjectApiList()
 
     useEffect(() => {
         setloader(true)
@@ -106,6 +107,8 @@ const VerifyIndex = (props) => {
 //   });
 // }
 
+console.log('allformdata => ', allFormData)
+
 console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor))
 
   const submitFun = () => {
@@ -143,9 +146,36 @@ console.log('merged data => ', allFormData?.floor?.concat(allFormData?.addFloor)
       floor : allFormData?.floor?.concat(allFormData?.addFloor)
     }
 
+    let body2 = {
+      safId : props?.applicationData?.id,
+      wardId : allFormData?.basic?.oldWardNo,
+      // newWardId : allFormData?.basic?.newWardNo,
+      zone : allFormData?.basic?.zone,
+      propertyType : allFormData?.basic?.propertyType,
+      areaOfPlot : allFormData?.basic?.areaOfPlot,
+      roadWidth : allFormData?.basic?.roadType,
+      isHoardingBoard : allFormData?.extra?.hoardingBoard == 'true' ? 1 : 0,
+      hoardingBoard : {
+        area : allFormData?.extra?.hoardingArea,
+        dateFrom : allFormData?.extra?.hoardingInstallation
+      },
+      isMobileTower : allFormData?.extra?.mobileTower == 'true' ? 1 : 0,
+      mobileTower : {
+        area : allFormData?.extra?.mobileArea,
+        dateFrom : allFormData?.extra?.mobileInstallation
+      },
+      isPetrolPump : allFormData?.extra?.petrolPump == 'true' ? 1 : 0,
+      petrolPump: {
+        area : allFormData?.extra?.petrolArea,
+        dateFrom : allFormData?.extra?.petrolCompletion
+      },
+      isWaterHarvesting : allFormData?.extra?.waterHarvesting == 'true' ? 1 : 0,
+      floor : allFormData?.floor?.concat(allFormData?.floor2)
+    }
+
     console.log('request body => ', body)
 
-    axios.post(post_SiteVerification, body, ApiHeader())
+    axios.post(post_SiteVerification, role == '["ULB Tax Collector"]' ? body2 : body, ApiHeader())
     .then((res) => {
       role == '["ULB Tax Collector"]' && setforward(res?.data?.status)
       if(res?.data?.status == true){
@@ -194,6 +224,21 @@ useEffect(() => {
     role == '["ULB Tax Collector"]' ? setforwardStatus(true) : submitFun()
   }
 
+  useEffect(() => {
+    role == '["ULB Tax Collector"]' && setloader(true)
+    role == '["ULB Tax Collector"]' && 
+    axios.post(getTcData, {safId : props?.applicationData?.id}, ApiHeader())
+    .then((res) => {
+      console.log("getting tc data => ", res)
+      settcAllData(res?.data?.data)
+      setloader(false)
+    })
+    .catch((err) => {
+      console.log('error getting tc data => ',err)
+      setloader(false)
+    })
+  },[])
+
   return (
     <>
 
@@ -210,17 +255,17 @@ useEffect(() => {
 
             {(pageNo != 6 && !loader) && <div className='text-xs mb-1'>Step: {pageNo}/5</div>}
 
-            <div className={pageNo == 1 ? 'visible' : 'hidden'}><BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun}  /></div>
+            <div className={pageNo == 1 ? 'visible' : 'hidden'}><BasicDetails utc={utc} tcData={tcAllData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun}  /></div>
 
-            <div className={pageNo == 2 ? 'visible' : 'hidden'}><FloorIndex utc={utc} tcData={props?.applicationData?.floors} applicationData={props?.applicationData?.floors} usageType={usageType} occupancyType={occupancyType} constructionList={constructionList} floorList={floorList} next={() => nextFun(2)} back={() => backFun(2)} collectData={collectDataFun} preData={allFormData} /></div>
+            <div className={pageNo == 2 ? 'visible' : 'hidden'}><FloorIndex utc={utc} tcExistingData={tcAllData?.existingFloors} tcNewData={tcAllData?.newFloors} applicationData={props?.applicationData?.floors} usageType={usageType} occupancyType={occupancyType} constructionList={constructionList} floorList={floorList} next={() => nextFun(2)} back={() => backFun(2)} collectData={collectDataFun} preData={allFormData} /></div>
 
-            <div className={pageNo == 3 ? 'visible' : 'hidden'}><ExtraDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} next={() => nextFun(3)} back={() => backFun(3)} collectData={collectDataFun}  /></div>
+            <div className={pageNo == 3 ? 'visible' : 'hidden'}><ExtraDetails utc={utc} tcData={tcAllData} applicationData={props?.applicationData} next={() => nextFun(3)} back={() => backFun(3)} collectData={collectDataFun}  /></div>
 
 
 
-            <div className={pageNo == 4 ? 'visible' : 'hidden'}><Remarks utc={utc} tcData={props?.applicationData} next={() => nextFun(4)} back={() => backFun(4)} collectData={collectDataFun}  /></div>
+            <div className={pageNo == 4 ? 'visible' : 'hidden'}><Remarks utc={utc} tcData={tcAllData?.geoTagging} next={() => nextFun(4)} back={() => backFun(4)} collectData={collectDataFun}  /></div>
 
-            <div className={(pageNo == 5 && !loader) ? 'visible' : 'hidden'}><Preview utc={utc} tcData={props?.applicationData} next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /></div>
+            <div className={(pageNo == 5 && !loader) ? 'visible' : 'hidden'}><Preview utc={utc} tcData={tcAllData} next={() => submitAction()} back={() => backFun(5)} allData={allFormData} applicationData={props?.applicationData} wardList={wardList} propertyList={propertyType} roadList={roadList} usageList={usageType} occupancyList={occupancyType} constructionList={constructionList} floorList={floorList} /></div>
 
             {/* {pageNo == 1 && <BasicDetails utc={utc} tcData={props?.applicationData} applicationData={props?.applicationData} wardList={wardList} propertyType={propertyType} roadList={roadList} next={() => nextFun(1)} collectData={collectDataFun} preData={allFormData?.basic} />}
 

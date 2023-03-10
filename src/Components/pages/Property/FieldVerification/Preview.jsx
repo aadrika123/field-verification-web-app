@@ -9,7 +9,7 @@ const Preview = (props) => {
     window.scrollTo(0, 0);
   }, []);
 
-  // console.log('all data', props?.allData)
+  console.log('all data', props?.allData)
 
   
 //   role == '["Tax Collector"]'
@@ -22,7 +22,7 @@ const role = localStorage.getItem('roles')
     <div className='animate__animated animate__fadeInRight animate__faster'>
 
         <BasicPreview utc={props?.utc} tcData={props?.tcData} data={props?.allData?.basic} applicationData={props?.applicationData} wardList={props?.wardList} propertyList={props?.propertyList} roadList={props?.roadList} />
-        <FloorPreview utc={props?.utc} tcData={props?.tcData} data={props?.allData?.floor} addFloor={props?.allData?.addFloor} applicationData={props?.applicationData} usageList={props?.usageList} occupancyList={props?.occupancyList} constructionList={props?.constructionList} floorList={props?.floorList} />
+        <FloorPreview utc={props?.utc} tcData={props?.tcData} data={props?.allData?.floor} data2={props?.allData?.floor2} addFloor={props?.allData?.addFloor} applicationData={props?.applicationData} usageList={props?.usageList} occupancyList={props?.occupancyList} constructionList={props?.constructionList} floorList={props?.floorList} />
         <ExtraPreview utc={props?.utc} tcData={props?.tcData} data={props?.allData?.extra} applicationData={props?.applicationData} />
         
         <div className='border-2 border-blue-700 bg-blue-50 mb-4'>

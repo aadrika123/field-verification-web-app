@@ -42,7 +42,11 @@ const ForwardScreen = (props) => {
             return
         }
 
-        props?.navigation()
+        {(props?.canSubmit != 'true') && props?.navigation()}
+
+        setloader(true)
+
+        {props?.canSubmit == 'false' && setloader(false)}
 
         console.log('can submit => ', props?.canSubmit)
 

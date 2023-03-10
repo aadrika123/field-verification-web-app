@@ -130,7 +130,7 @@ export default function ProjectApiList() {
 
         harvestingPostLevel : `${baseUrl}/api/property/harvesting/next-level`,  // for harvesting wf
         
-
+        getTcData : `${baseUrl}/api/property/saf/get-tc-verifications`
 
           ///////{*******ADVERTISEMENT API LIST********}////////
           
