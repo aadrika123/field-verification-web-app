@@ -1,7 +1,7 @@
 import ApiHeader from "./ApiHeader";
 import BackendUrl from './BackendUrl'
 export default function WaterApiList() {
-    let baseUrl = BackendUrl; 
+    let baseUrl = BackendUrl;
     // let baseUrl = "http://192.168.0.148:81"
 
     const header = ApiHeader()
@@ -10,33 +10,49 @@ export default function WaterApiList() {
     let apiList = {
         header: header,
         api_ulbList: `${baseUrl}/api/get-all-ulb`, //GET
-        api_getSafHoldingDetails: `${baseUrl}/api/water/get-related-saf-holding`,
-        api_getPendingApplicationDetails: `${baseUrl}/api/water/get_application_details`,
-        api_waterApprovedApplicationDetails: `${baseUrl}/api/water/get-approved-water-application-details`,
-        api_waterConsumerPaymentHistory: `${baseUrl}/api/water/get-consumer-payment-history`,
+        api_getSafHoldingDetails: `${baseUrl}/api/water/search-holding-saf`,
+        api_getPendingApplicationDetails: `${baseUrl}/api/water/application/get-by-id`,
+        api_waterApprovedApplicationDetails: `${baseUrl}/api/water/consumer/get-listed-details`,
+        api_waterConsumerPaymentHistory: `${baseUrl}/api/water/consumer/get-payment-history`,
+        api_getProfileDetails: `${baseUrl}/api/my-profile-details`,
 
+        // --------- JSK -------------------
+        api_NewWaterConnection: `${baseUrl}/api/water/application/apply-new-connection`,
+        api_WaterGetDetailsById: `${baseUrl}/api/water/admin/application/get-details-by-id`,
+        api_WaterListDetailsById: `${baseUrl}/api/water/admin/application/list-details-by-date`,
+        api_paymentReceipt: `${baseUrl}/api/water/admin/application/generate-payment-receipt`, // Method => POST | Fetch Data for require dcoument
+        api_waterListDemand: `${baseUrl}/api/water/consumer/list-demand`,
+        api_waterSiteInspectionList: `${baseUrl}/api/water/admin/search-application`,
+
+        api_waterMasterData: `${baseUrl}/api/water/master/get-listed-details`,
+        api_waterSiteInspectionSaveData: `${baseUrl}/api/water/site-verification/save-site-details`,
+        api_waterPayConnectionCharges: `${baseUrl}/api/water/application/payment/offline/pay-connection-charge`,
+
+        api_waterApplicationPaymentHistory: `${baseUrl}/api/water/application/payment/get-payment-history`,
+        api_waterInspectionSaveDate: `${baseUrl}/api/water/admin/application/save-inspection-date`,
 
 
         // -------------------- Workflow ----------------
 
-        api_waterInbox: `${baseUrl}/api/water/list-inbox`, //POST => Water Workflow Inbox List
-        api_waterOutbox: `${baseUrl}/api/water/list-outbox`, //POST => Water Workflow Outbox List
-        api_waterSpecialInbox: `${baseUrl}/api/water/list-special-inbox`, //POST => Water Workflow Special List
-        api_waterPendingApplicationById: `${baseUrl}/api/water/get-pending-application-by-id`,// => Get Pending Applicatin BY Id
-        api_waterPostMessage: `${baseUrl}/api/water/post-message`, // => Send Message
+        api_waterInbox: `${baseUrl}/api/water/inbox`, //POST => Water Workflow Inbox List
+        api_waterOutbox: `${baseUrl}/api/water/outbox`, //POST => Water Workflow Outbox List
+        api_waterSpecialInbox: `${baseUrl}/api/water/special-inbox`, //POST => Water Workflow Special List
+        api_waterPendingApplicationById: `${baseUrl}/api/water/workflow/application/get-by-id`,// => Get Pending Applicatin BY Id
+        api_waterPostMessage: `${baseUrl}/api/water/comment-independent`, // => Send Message
         api_waterPostNextLevel: `${baseUrl}/api/water/post-next-level`, //=> Send Applicaion To Next Level
         api_waterEsclate: `${baseUrl}/api/water/escalate`, // => Escalate Application
-        api_waterApproveRejectApplication: `${baseUrl}/api/water/approval-rejection-application`, // => Approve / Reject Application
+        api_waterApproveRejectApplication: `${baseUrl}/api/water/application/approval-rejection`, // => Approve / Reject Application
         api_waterVerifyDoc: `${baseUrl}/api/workflow/document/verify-reject`, // => Water Workflow Document Verification
-        api_waterDocList: `${baseUrl}/api/water/get_upload_documents`, // Water Workflow Show Uploaded Documents
-        api_waterListFieldVerifyInbox: `${baseUrl}/api/water/list-field-verified-inbox`, // => Water Workflow List of Vieled Verification Inbox
-        api_waterBtcListInbox: `${baseUrl}/api/water/list_btc_inbox`, //POST => Water BTC Inbox List
-        api_backToCitizen: `${baseUrl}/api/water/back_to_citizen`, //POST    => Water Send to BTC
+        api_waterDocList: `${baseUrl}/api/water/get-upload-documents`, // Water Workflow Show Uploaded Documents
+        api_waterListFieldVerifyInbox: `${baseUrl}/api/water/field-verified-inbox`, // => Water Workflow List of Vieled Verification Inbox
+        api_waterBtcListInbox: `${baseUrl}/api/water/btc-inbox`, //POST => Water BTC Inbox List
+        api_backToCitizen: `${baseUrl}/api/water/back-to-citizen`, //POST    => Water Send to BTC
         api_waterPostCustomData: `${baseUrl}/api/post-custom-data`, //POST => Water Post Custom Data
         api_waterGetCustomDataTab: `${baseUrl}/api/get-all-custom-tab-data`, //POST => Water Get All Custom Tab Data
-        api_waterListDocToUpload: `${baseUrl}/api/water/getDocList`, //POST => Water Get Documenet List
-        api_waterSearchConsumer: `${baseUrl}/api/water/search-water-consumer`, //POST => Watar Search Consumer
-        api_waterSearchActiveApplication: `${baseUrl}/api/water/search-active-applictaions`, //POST => Water Search Active Application
+        api_waterListDocToUpload: `${baseUrl}/api/water/workflow/get-doc-list`, //POST => Water Get Documenet List
+        api_waterSearchConsumer: `${baseUrl}/api/water/search-consumer`, //POST => Watar Search Consumer
+        api_waterSearchActiveApplication: `${baseUrl}/api/water/application/search`, //POST => Water Search Active Application
+        api_waterUploadDocument: `${baseUrl}/api/water/upload-document`,
 
 
         // ------------ Menu master --------
@@ -63,6 +79,7 @@ export default function WaterApiList() {
         api_tcCollection: `${baseUrl}/api/payment/tc-collections`,
 
         api_cashVerification: `${baseUrl}/api/payment/verify-cash`,
+
 
 
     }
