@@ -435,7 +435,9 @@ const HarvestingVerificationIndex = () => {
                 {/* ========To view image=========== */}
                 {
                     modalType == 'image' &&
-                    <iframe className='w-full h-full' src={viewImage} frameborder="0"></iframe>
+                    <div className='w-full h-full flex items-center justify-center'>
+                        <img  src={viewImage} alt="" srcset="" />
+                    </div>
                 }
 
                 {/* =======To open camera and take picture */}
