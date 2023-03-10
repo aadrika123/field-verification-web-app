@@ -153,6 +153,8 @@ export default function PropertyApiList() {
     // SAM reciept details
     api_samReciept : `${baseUrl}/api/property/saf/memo-receipt`, // POST
 
+    getHarvestingData : `${baseUrl}/api/property/harvesting/get-tc-verifications`,
+
   }
 
   return apiList

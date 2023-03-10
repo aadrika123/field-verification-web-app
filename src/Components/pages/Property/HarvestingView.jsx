@@ -6,7 +6,7 @@ const HarvestingView = (props) => {
 
   const navigate = useNavigate()
     
-  console.log("getting search data => ", props?.dataList)
+//   console.log("getting search data => ", props?.dataList)
 
 return (
   <>

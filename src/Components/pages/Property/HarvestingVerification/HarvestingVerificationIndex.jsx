@@ -28,8 +28,9 @@ const HarvestingVerificationIndex = () => {
     const [forwardStatus, setforwardStatus] = useState(false)
     const [frontCamera, setfrontCamera] = useState(false)
     const [forward, setforward] = useState('')
+    const [harvestingData, setharvestingData] = useState()
 
-    const {get_HarvestingDetailsById, harvestingSiteVerification} = PropertyApiList()
+    const {get_HarvestingDetailsById, harvestingSiteVerification, getHarvestingData} = PropertyApiList()
 
     const {id} = useParams()
 
@@ -267,6 +268,23 @@ const HarvestingVerificationIndex = () => {
 
        let baseUrl = BackendUrl
 
+       const role = localStorage.getItem('roles')
+
+       useEffect(() => {
+        role == '["ULB Tax Collector"]' && setloader(true)
+        role == '["ULB Tax Collector"]' && 
+        axios.post(getHarvestingData, {applicationId : id}, ApiHeader())
+        .then((res) => {
+          console.log("getting tc data => ", res)
+          setharvestingData(res?.data?.data)
+          setloader(false)
+        })
+        .catch((err) => {
+          console.log('error getting tc data => ',err)
+          setloader(false)
+        })
+      },[])
+
   return (
     <>
     
@@ -350,7 +368,7 @@ const HarvestingVerificationIndex = () => {
                         {localStorage.getItem('roles') == '["ULB Tax Collector"]' && <span className='col-span-12 my-2 px-2'>
                         <div className="grid grid-cols-12 text-sm pb-2 items-center">
                         <span className="col-span-4 font-semibold">Agency TC : </span>
-                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image',imageUrl)} /></span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={`${baseUrl}/${harvestingData?.doc_path}`} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image',`${baseUrl}/${harvestingData?.doc_path}`)} /></span>
                     </div> 
                         </span>}
 

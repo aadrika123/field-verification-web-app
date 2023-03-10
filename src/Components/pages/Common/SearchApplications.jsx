@@ -198,8 +198,8 @@ const SearchApplications = () => {
                 <option value="objection">Objection</option> */}
                 <option value="rainWaterHarvesting">Rainwater Harvesting</option>
                 {/* <option value="holdingDeactivation">Holding Deactivation</option> */}
-                <option value="amalgamation">Amalgamtion</option>
-                <option value="bifurcation">Bifurcation</option>
+                {/* <option value="amalgamation">Amalgamtion</option>
+                <option value="bifurcation">Bifurcation</option> */}
               </select>
               <p className="text-red-500 text-xs">
                 {formik.touched.filterBy && formik.errors.filterBy
