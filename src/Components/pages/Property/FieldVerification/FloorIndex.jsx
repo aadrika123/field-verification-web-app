@@ -148,7 +148,7 @@ const FloorIndex = (props) => {
       {addFloorStatus && role == '["ULB Tax Collector"]' && (
         <>{(props?.tcNewData != undefined && props?.tcNewData?.length > 0) ? <>
         <div className="text-sm font-semibold text-center">
-                New Floor Added By Agency TC
+                This Floor Added By Agency TC
               </div>
               {props?.tcNewData?.map((data, index) => (
             <>
