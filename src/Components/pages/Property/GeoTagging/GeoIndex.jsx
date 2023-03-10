@@ -390,7 +390,7 @@ const GeoIndex = () => {
 
     <div className='w-full'>
             <h1 className=' text-center font-bold text-xl border-b-2 border-gray-700 mx-4'>Field Verification <br />
-            Document Upload </h1>
+            Geo-Tagging </h1>
         <div className='p-4 flex flex-col gap-y-4'>
             <div className='w-full items-center justify-center px-4 shadow-sm flex md:flex-row flex-col flex-wrap gap-2 md:justify-evenly bg-indigo-50'>
                 <span className="grid grid-cols-12 w-full text-sm gap-2 my-1"><span className='col-span-6'>Your Application No.:</span> <span className="font-semibold text-base col-span-6">{applicationData?.saf_no}</span></span>
