@@ -135,11 +135,13 @@ const HarvestingVerificationIndex = () => {
 
     const [modalIsOpen, setIsOpen] = useState(false);
     const [modalType, setmodalType] = useState('')
-    const openModal = (val) => {
+    const [viewImage, setviewImage] = useState('')
+    const openModal = (val, dt) => {
       setIsOpen(true)
       {val == 'camera' && startCamera()}
       setimageData(null)
       setmodalType(val)
+      setviewImage(dt)
     }
     const closeModal = () => setIsOpen(false)
     const afterOpenModal = () => { }
@@ -341,14 +343,14 @@ const HarvestingVerificationIndex = () => {
                         <span className='col-span-12 my-2 px-2'>
                         <div className="grid grid-cols-12 text-sm pb-2 items-center">
                         <span className="col-span-4 font-semibold">Self Assessed : </span>
-                        <span className='col-span-8 text-center flex justify-center'><img src={`${baseUrl}/${applicationData?.harvestingImage}`} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={`${baseUrl}/${applicationData?.harvestingImage}`} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image', `${baseUrl}/${applicationData?.harvestingImage}`)} /></span>
                     </div> 
                         </span>
 
                         {localStorage.getItem('roles') == '["ULB Tax Collector"]' && <span className='col-span-12 my-2 px-2'>
                         <div className="grid grid-cols-12 text-sm pb-2 items-center">
                         <span className="col-span-4 font-semibold">Agency TC : </span>
-                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image',imageUrl)} /></span>
                     </div> 
                         </span>}
 
@@ -371,7 +373,7 @@ const HarvestingVerificationIndex = () => {
                         {imageUrl != null && <span className='col-span-12 my-2 px-2'>
                         <div className="grid grid-cols-12 text-sm pb-2 items-center">
                         <span className="col-span-4 font-semibold">Preview : </span>
-                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image', imageUrl)} /></span>
                     </div> 
                         </span>}
 
@@ -382,7 +384,7 @@ const HarvestingVerificationIndex = () => {
                                     <span className="col-span-4 text-sm flex items-center font-semibold">Upload :</span>
                                     <span className="col-span-5 text-sm"><input onChange={(e) => handleImage(e)} type="file" name="harvestingImage" id="" accept='.jpg, .jpeg' className=' bg-white px-2 py-1 w-full rounded-sm shadow-sm border-[1px] border-gray-400' /></span>
                                     <span className='text-red-500 text-xs col-span-2 flex justify-center items-center'>OR</span>
-                                    <span className="col-span-1 text-sm flex items-center justify-end"><abbr title='Click to capture image' onClick={() => openModal('camera')} className='cursor-pointer'><span className='text-xl'><FcCamera /></span></abbr> </span>
+                                    <span className="col-span-1 text-sm flex items-center justify-end"><abbr title='Click to capture image' onClick={() => openModal('camera','')} className='cursor-pointer'><span className='text-xl'><FcCamera /></span></abbr> </span>
                                 </span>
                                 <span className="col-span-12 text-center mb-2">
                                     {formik.touched.harvestingImage && formik.errors.harvestingImage && <><span className="text-red-600 text-xs">{formik.errors.harvestingImage}</span></>}
@@ -433,7 +435,7 @@ const HarvestingVerificationIndex = () => {
                 {/* ========To view image=========== */}
                 {
                     modalType == 'image' &&
-                    <iframe className='w-full h-full' src={imageUrl == null ? `${baseUrl}/${applicationData?.harvestingImage}` : imageUrl} frameborder="0"></iframe>
+                    <iframe className='w-full h-full' src={viewImage} frameborder="0"></iframe>
                 }
 
                 {/* =======To open camera and take picture */}
