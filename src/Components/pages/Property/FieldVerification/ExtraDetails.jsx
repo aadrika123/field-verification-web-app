@@ -64,6 +64,8 @@ waterHarvesting : yup.string().when([],{
             waterHarvesting: props?.preData?.waterHarvesting,
             petrolArea : props?.preData?.petrolArea
         },
+
+        enableReinitialize: true,
         
         onSubmit: (values) => {
             console.log('submitting values => ', values)

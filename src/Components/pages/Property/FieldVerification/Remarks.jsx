@@ -17,6 +17,7 @@ const Remarks = (props) => {
     initialValues: {
       remarks: props?.preData?.remarks
     },
+    enableReinitialize: true,
     onSubmit: (values) => {
       props.collectData('remarks', values)
       props.next()

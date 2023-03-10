@@ -51,6 +51,8 @@ roadType : yup.string().when([],{
             areaOfPlot: props?.preData?.areaOfPlot,
             roadType: props?.preData?.roadType,
         },
+
+        enableReinitialize: true,
         
         onSubmit: (values) => {
             console.log('submitting values => ', values)
