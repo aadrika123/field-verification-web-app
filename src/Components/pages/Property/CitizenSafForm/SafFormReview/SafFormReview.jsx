@@ -1571,7 +1571,7 @@ function SafFormReview(props) {
 
                 </div> */}
 
-        <div className="w-full h-20"></div>
+        {/* <div className="w-full h-20"></div> */}
       </div>
 
       {/* rate modal */}

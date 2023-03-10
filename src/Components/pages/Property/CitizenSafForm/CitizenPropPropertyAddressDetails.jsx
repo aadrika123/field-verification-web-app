@@ -25,9 +25,9 @@ function CitizenPropPropertyAddressDetails(props) {
         village_mauja: yup.string().required('Enter village/mauja name'),
         plotArea: yup.string().required('Enter area of plot'),
         roadWidth: yup.string().required('Enter road width'),
-        // city: yup.string().required('Enter city'),
-        // district: yup.string().required('Enter district'),
-        // state: yup.string().required('Enter state'),
+        city: yup.string().required('Enter city'),
+        district: yup.string().required('Enter district'),
+        state: yup.string().required('Enter state'),
         pin: yup.string().required('Enter pin').min(6, 'Enter minimum 6 digit'),
         locality: yup.string().required('Enter locality '),
 
@@ -73,9 +73,9 @@ function CitizenPropPropertyAddressDetails(props) {
             village_mauja: '',
             plotArea: '',
             roadWidth: '',
-            city: 'Ranchi', //static later fetch with ulbId onchange
-            district: 'Ranchi', //static later fetch with ulbId onchange
-            state: 'Jharkhand', //static later fetch with ulbId onchange
+            city: '', //static later fetch with ulbId onchange
+            district: '', //static later fetch with ulbId onchange
+            state: '', //static later fetch with ulbId onchange
             pin: '',
             locality: '',
             c_city: '',

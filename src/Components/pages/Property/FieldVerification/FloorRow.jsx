@@ -17,7 +17,7 @@ const FloorRow = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            id: props?.data?.id,
+            floorId: props?.data?.id,
             floorNo: props?.data?.floor_mstr_id,
             useType: props?.preData[props?.index]?.useType,
             occupancyType: props?.preData[props?.index]?.occupancyType,

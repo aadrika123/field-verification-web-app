@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { contextVar } from "./Components/services/contextVar";
 import Login from "./Components/pages/Login";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import TopBar from "./Components/pages/TopBar";
 import NewDashboardRoutes from "./Components/pages/Dashboard/NewDashboardRoutes";
@@ -41,6 +41,42 @@ const App = () => {
     },
     isLoggedIn, setisLoggedIn
   };
+  
+  // useEffect(() => {
+  //   if(window.getItem('menuList')){
+  //     window.localStorage.removeItem('menuList')
+  //   }
+
+  //   if(window.getItem('userName')){
+  //     window.localStorage.removeItem('userName')
+  //   }
+
+  //   if(window.getItem('roles')){
+  //     window.localStorage.removeItem('roles')
+  //   }
+
+  //   if(window.getItem('token')){
+  //     window.localStorage.removeItem('token')
+  //   }
+
+  //   if(window.getItem('isLoggedIn')){
+  //     window.localStorage.removeItem('isLoggedIn')
+  //   }
+
+  //   (window.localStorage.getItem('token') == undefined || window.localStorage.getItem('token') == '') && window.location.replace('/mobile')
+  // },[]);
+
+  // const handleUnload = () => {
+  //   // alert("Are you sure you want to close the app?");
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("unload", handleUnload);
+
+  //   return () => {
+  //     window.removeEventListener("unload", handleUnload);
+  //   };
+  // });
 
   return (
     <>
