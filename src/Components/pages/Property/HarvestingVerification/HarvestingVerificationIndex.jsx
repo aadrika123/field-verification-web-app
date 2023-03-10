@@ -15,6 +15,7 @@ import * as yup from 'yup'
 import Modal from 'react-modal'
 import ApiHeader2 from "../../../api/ApiHeader2";
 import { toast } from "react-toastify";
+import BackendUrl from "../../../api/BackendUrl";
 
 const HarvestingVerificationIndex = () => {
     
@@ -262,7 +263,7 @@ const HarvestingVerificationIndex = () => {
          return direction === "S" || direction === "W" ? -decimalDegrees : decimalDegrees;
        }
 
-       let baseUrl = "http://192.168.0.16:8000"
+       let baseUrl = BackendUrl
 
   return (
     <>
@@ -337,15 +338,23 @@ const HarvestingVerificationIndex = () => {
                     <form className="grid grid-cols-12 text-sm pb-2 border-2 border-indigo-400 rounded-md mt-4" onChange={formik.handleChange} onSubmit={formik.handleSubmit}>
                         <span className=' col-span-12 font-semibold bg-indigo-500 text-white uppercase px-2 py-1 text-md'>Water Harvesting Image</span>
 
-                        <span className='col-span-12 my-2'>
-                        <div className="grid grid-cols-12 text-sm pb-2">
-                        <span className='col-span-12 text-center flex justify-center'><img src={imageUrl == null ? `${baseUrl}/${applicationData?.harvestingImage}` : imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
+                        <span className='col-span-12 my-2 px-2'>
+                        <div className="grid grid-cols-12 text-sm pb-2 items-center">
+                        <span className="col-span-4 font-semibold">Self Assessed : </span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={`${baseUrl}/${applicationData?.harvestingImage}`} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
                     </div> 
                         </span>
 
+                        {localStorage.getItem('roles') == '["ULB Tax Collector"]' && <span className='col-span-12 my-2 px-2'>
+                        <div className="grid grid-cols-12 text-sm pb-2 items-center">
+                        <span className="col-span-4 font-semibold">Agency TC : </span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
+                    </div> 
+                        </span>}
+
                         <div className="col-span-12 px-2">
                         <div className="grid grid-cols-12 text-sm pb-2">
-                        <span className='col-span-5 font-semibold'>Check</span>
+                        <span className='col-span-5 font-semibold'>Check :</span>
                         <span className='col-span-7 flex gap-2' onClick={handleStatus}>
                             <span className='flex gap-1'>
                             <input type="radio" name="imageCheck" required id="check1" value={true} />
@@ -358,6 +367,13 @@ const HarvestingVerificationIndex = () => {
                         </span>
                     </div>
                         </div>
+
+                        {imageUrl != null && <span className='col-span-12 my-2 px-2'>
+                        <div className="grid grid-cols-12 text-sm pb-2 items-center">
+                        <span className="col-span-4 font-semibold">Preview : </span>
+                        <span className='col-span-8 text-center flex justify-center'><img src={imageUrl} alt="Harvesting Image" srcset="" className='w-32 cursor-pointer rounded-md shadow-md' onClick={() => openModal('image')} /></span>
+                    </div> 
+                        </span>}
 
                         <div className="col-span-12 px-2">
                         {localStorage.getItem('roles') != '["ULB Tax Collector"]' && <div className="grid grid-cols-12 text-sm pb-2">

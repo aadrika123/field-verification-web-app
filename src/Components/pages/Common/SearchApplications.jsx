@@ -96,13 +96,15 @@ const SearchApplications = () => {
 
       let data;
 
-      if(type == 'harvesting' && localStorage.getItem('roles') != '["ULB Tax Collector"]') {
-        data = {url : api_harvestingInboxList,
-                method : 'post'}
-        }
-      if(type == 'harvesting' && localStorage.getItem('roles') == '["ULB Tax Collector"]'){
-        data = {url : api_harvestingInboxList2, method : 'post'}
-      }
+      // if(type == 'harvesting' && localStorage.getItem('roles') != '["ULB Tax Collector"]') {
+      //   data = {url : api_harvestingInboxList,
+      //           method : 'post'}
+      //   }
+      // if(type == 'harvesting' && localStorage.getItem('roles') == '["ULB Tax Collector"]'){
+      //   data = {url : api_harvestingInboxList2, method : 'post'}
+      // }
+
+      type == 'harvesting' && (data = {url : api_harvestingInboxList, method : 'post'})
       
       type == 'property' && (data = {url : api_safInboxList, method : 'get'})
 
