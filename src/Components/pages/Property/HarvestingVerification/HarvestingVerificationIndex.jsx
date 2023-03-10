@@ -100,13 +100,24 @@ const HarvestingVerificationIndex = () => {
 
       axios.post(get_HarvestingDetailsById, {applicationId : id}, ApiHeader())
       .then((res) => {
-        console.log('success => ', res)
-        setapplicationData(res?.data?.data)
-        setloader(false)
+        if(res?.data?.status == true){
+            console.log('success => ', res)
+            setapplicationData(res?.data?.data)
+            setloader(false)
+        }
+        if(res?.data?.status == false){
+            console.log('error => ', res)
+            setapplicationData(res?.data?.data)
+            setloader(false)
+            navigate(`/search/harvesting`)
+            toast.error('Please try again after sometime !!!')
+        }
       })
       .catch((err) => {
-        console.log("errror => ", err)
+        console.log("errrrrror => ", err)
         setloader(false)
+        navigate(`/search/harvesting`)
+        toast.error('Please try again after sometime !!!')
       })
     }, [])
 
