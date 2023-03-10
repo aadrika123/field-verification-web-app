@@ -395,6 +395,7 @@ const GeoIndex = () => {
             <div className='w-full items-center justify-center px-4 shadow-sm flex md:flex-row flex-col flex-wrap gap-2 md:justify-evenly bg-indigo-50'>
                 <span className="grid grid-cols-12 w-full text-sm gap-2 my-1"><span className='col-span-6'>Your Application No.:</span> <span className="font-semibold text-base col-span-6">{applicationData?.saf_no}</span></span>
                 <span className="grid grid-cols-12 w-full text-sm  gap-2 my-1"><span className='col-span-6'>Application Type:</span> <span className="font-semibold text-base col-span-6">{applicationData?.assessment_type}</span></span>
+                <span className="grid grid-cols-12 w-full text-sm  gap-1"><span className='col-span-6'>Property Type:</span> <span className="font-semibold text-base col-span-6">{applicationData?.property_type}</span></span>
                 <span className="grid grid-cols-12 w-full text-sm  gap-2 my-1"><span className='col-span-6'>Apply Date:</span> <span className="font-semibold text-base col-span-6">{applicationData?.application_date}</span></span>
             </div>
     
