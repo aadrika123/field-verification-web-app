@@ -474,10 +474,10 @@ const WaterApplyIndex = () => {
 
                     <div className="col-span-4">
                         <div className='flex justify-center'>
-                            <div className='space-x-8'>
-                                <button type="button" onClick={() => navigate("/view-water")} className=" px-12 py-2.5 bg-red-600 text-white font-medium text-sm leading-tight  rounded  hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Cancel</button>
+                            <div className='space-x-8 flex'>
+                                <button type="button" onClick={() => navigate("/view-water")} className=" px-5 py-2 bg-red-600 text-white font-medium text-sm leading-tight  rounded  hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Cancel</button>
 
-                                <button type="submit" className=" px-12 py-2.5 bg-indigo-600 text-white font-medium text-sm leading-tight  rounded  hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Submit Form</button>
+                                <button type="submit" className=" px-5 py-2 bg-indigo-600 text-white font-medium text-sm leading-tight  rounded  hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">Submit Form</button>
                             </div>
                         </div>
                     </div>

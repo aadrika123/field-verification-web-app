@@ -8,15 +8,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import WaterApiList from "../../../api/WaterApiList";
 import CommonLoader from "../../Common/CommonLoader";
 
-function WaterConsumerSearch() {
+function WaterApplicationSearch() {
   const [searchBy, setSearchBy] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedData, setFetchedData] = useState()
+  const [headerData, setHeaderData] = useState()
 
   // const { notify } = useContext(contextVar)
 
 
-  const { api_waterSearchConsumer, header } = WaterApiList();
+  const { api_waterSearchActiveApplication, header } = WaterApiList();
 
 
   const navigate = useNavigate();
@@ -28,15 +29,15 @@ function WaterConsumerSearch() {
     setIsLoading(true)
     const payload = {
       filterBy: formik.values.filterBy,
-      parameter: formik.values.parameter,
+      applicationNo: formik.values.parameter,
     };
 
 
-    console.log('before fetch holding details....', payload)
+    console.log('payload...', payload)
     axios
-      .post(api_waterSearchConsumer, payload, header)
+      .post(api_waterSearchActiveApplication, payload, header)
       .then((res) => {
-        console.log('search property list', res?.data?.data)
+        console.log('search application water list', res?.data?.data)
         if (res?.data?.status) {
           setFetchedData(res?.data?.data)
         } else {
@@ -98,7 +99,7 @@ function WaterConsumerSearch() {
 
 
       <div className='text-center font-bold text-gray-700 text-lg border-b-2 border-gray-700 mx-4 mb-4'>
-        <p>  Search Water Consumer </p>
+        <p>  Search Water Application </p>
       </div>
       <div className="mt-6">
         <div className="flex ml-5 mt-2 ">
@@ -118,11 +119,8 @@ function WaterConsumerSearch() {
                 className="cursor-pointer w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none placeholder-gray-300 shadow-md"
               >
                 <option value="">Select</option>
-                <option value="consumerNo">Consumer No</option>
-                <option value="holdingNo">Holding No</option>
-                <option value="safNo">SAF No</option>
-                <option value="applicantName">Applicant Name</option>
-                <option value="mobileNo">Mobile No</option>
+                <option value="newConnection">New Connection</option>
+                <option value="regularization">Regularization</option>
               </select>
               <p className="text-red-500 text-xs">
                 {formik.touched.filterBy && formik.errors.filterBy
@@ -163,8 +161,8 @@ function WaterConsumerSearch() {
                       <div key={i} className='w-full md:w-[40%] grid grid-cols-12 p-4'>
 
                         <>
-                          <div className='col-span-6 text-xs text-gray-600'>Consumer No</div>
-                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{item?.consumer_no}</div>
+                          <div className='col-span-6 text-xs text-gray-600'>Application No</div>
+                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{item?.application_no}</div>
                         </>
                         {item?.holding_no &&
                           <>
@@ -180,7 +178,7 @@ function WaterConsumerSearch() {
                         }
                         <>
                           <div className='col-span-6 text-xs text-gray-600'>Applicant Name</div>
-                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{item?.applicant_name}</div>
+                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{item?.applicantname}</div>
                         </>
                         <>
                           <div className='col-span-6 text-xs text-gray-600'>Guardian Name</div>
@@ -188,7 +186,7 @@ function WaterConsumerSearch() {
                         </>
                         <>
                           <div className='col-span-6 text-xs text-gray-600'>Mobile No</div>
-                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{item?.mobile_no}</div>
+                          <div className='col-span-6 font-semibold text-gray-700 2xl:text-base text-sm'>{item?.mobileno}</div>
                         </>
                         <>
                           <div className='col-span-6 text-xs text-gray-600'>Address</div>
@@ -217,4 +215,4 @@ function WaterConsumerSearch() {
   );
 }
 
-export default WaterConsumerSearch;
+export default WaterApplicationSearch;

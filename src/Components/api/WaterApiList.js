@@ -16,21 +16,23 @@ export default function WaterApiList() {
         api_waterConsumerPaymentHistory: `${baseUrl}/api/water/consumer/get-payment-history`,
         api_getProfileDetails: `${baseUrl}/api/my-profile-details`,
 
-        // --------- JSK -------------------
-        api_NewWaterConnection: `${baseUrl}/api/water/application/apply-new-connection`,
-        api_WaterGetDetailsById: `${baseUrl}/api/water/admin/application/get-details-by-id`,
-        api_WaterListDetailsById: `${baseUrl}/api/water/admin/application/list-details-by-date`,
-        api_paymentReceipt: `${baseUrl}/api/water/admin/application/generate-payment-receipt`, // Method => POST | Fetch Data for require dcoument
-        api_waterListDemand: `${baseUrl}/api/water/consumer/list-demand`,
-        api_waterSiteInspectionList: `${baseUrl}/api/water/admin/search-application`,
-
-        api_waterMasterData: `${baseUrl}/api/water/master/get-listed-details`,
-        api_waterSiteInspectionSaveData: `${baseUrl}/api/water/site-verification/save-site-details`,
-        api_waterPayConnectionCharges: `${baseUrl}/api/water/application/payment/offline/pay-connection-charge`,
-
-        api_waterApplicationPaymentHistory: `${baseUrl}/api/water/application/payment/get-payment-history`,
-        api_waterInspectionSaveDate: `${baseUrl}/api/water/admin/application/save-inspection-date`,
-
+         // --------- JSK -------------------
+         api_NewWaterConnection: `${baseUrl}/api/water/application/apply-new-connection`,
+         api_WaterGetDetailsById: `${baseUrl}/api/water/admin/application/get-details-by-id`,
+         api_WaterListDetailsById: `${baseUrl}/api/water/admin/application/list-details-by-date`,
+         api_paymentReceipt: `${baseUrl}/api/water/admin/application/generate-payment-receipt`, // Method => POST | Fetch Data for require document
+         api_waterListDemand: `${baseUrl}/api/water/consumer/list-demand`,
+         api_waterSiteInspectionList: `${baseUrl}/api/water/admin/search-application`,
+ 
+         api_waterMasterData: `${baseUrl}/api/water/master/get-listed-details`,
+         api_waterSiteInspectionSaveData: `${baseUrl}/api/water/site-verification/save-site-details`,
+         api_waterPayConnectionCharges: `${baseUrl}/api/water/application/payment/offline/pay-connection-charge`,
+ 
+         api_waterApplicationPaymentHistory: `${baseUrl}/api/water/application/payment/get-payment-history`,
+         api_waterInspectionSaveDate: `${baseUrl}/api/water/admin/application/save-inspection-date`,
+         api_waterInspectionDetails: `${baseUrl}/api/water/admin/application/site-inspection-details`,
+         api_waterCancelSiteInspection: `${baseUrl}/api/water/admin/application/cancel-inspection-scheduling`,
+         api_waterGenerateDemand: `${baseUrl}/api/water/admin/consumer/generate-demand`,
 
         // -------------------- Workflow ----------------
 

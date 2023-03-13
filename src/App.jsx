@@ -17,6 +17,9 @@ import WaterApplyIndex from "./Components/pages/Water/ApplyNewConnection/WaterAp
 import WaterConsumerSearch from "./Components/pages/Water/WaterSearch/WaterConsumerSearch";
 import ProtectedRoutes from "./Components/pages/ProtectedRoutes";
 import LandingDashboardNew from "./Components/pages/Dashboard/LandingDashboardNew";
+import SiteInspectionLIst from "./Components/pages/Water/WaterSiteInspection/SiteInspectionLIst";
+import WaterSiteInspectionForm from "./Components/pages/Water/WaterSiteInspection/WaterSiteInspectionForm";
+import WaterApplicationSearch from "./Components/pages/Water/WaterSearch/WaterApplicationSearch";
 // import CitizenPropSafApplicationIndex from "./Components/pages/Property/ApplyForm/CitizenPropSafApplicationIndex";
 
 const App = () => {
@@ -122,6 +125,9 @@ const App = () => {
 
                   <Route path="/water-apply/" element={<WaterApplyIndex />} />
                   <Route path="/water-consumer-search/" element={<WaterConsumerSearch />} />
+                  <Route path="/water-application-search/" element={<WaterApplicationSearch />} />
+                  <Route path="/water-site-inspection-list/" element={<SiteInspectionLIst />} />
+                  <Route path="/water-site-inspection-form/:id" element={<WaterSiteInspectionForm />} />
 
               </Route>
 
